@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permata Ansyithon Ramadhan 1445H</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Permata Ansyithoh Ramadhan 1445H</title>
+    <link rel="stylesheet" type="text/css" href="indexstyles.css">
 </head>
 <body>
-
     <nav class="navbar navbar-dark bg-primary">
     <div id="toggle-btn">&#9776;</div>
     <img src="logo.png" alt="Beranda" id="brand-logo">
@@ -34,14 +33,14 @@
         <div class="carousel-wrapper">
             <div class="carousel-content">
                 <h1>Permata Ansyithoh Ramadhan <br> 1445H</h1>
-                <img src="upz.png" alt="Logo" class="logo">
+                <img src="upz.png" alt="logo" class="logo">
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua. <br> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
                 nisi ut aliquip ex ea commodo consequat.</p>
             </div>
             <div class="carousel-content">
                 <h1>Menu</h1>
-                <img src="menu.jpg" alt="Logo" class="logo">
+                <img src="menu.jpg" alt="logo" class="logo">
                 <br>
                 <button class="lanjut-button" onclick="lanjutKeFormDonasi()">Form Donasi</button>
             </div>

@@ -7,14 +7,13 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permata Ansyithon Ramadhan 1445H</title>
+    <title>Permata Ansyithoh Ramadhan 1445H</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    
-    <nav>
-        <div id="toggle-btn">&#9776;</div>
-        <h2 id="ziswaf-text">Form Donasi</h2>
+    <nav class="navbar navbar-dark bg-primary">
+    <div id="toggle-btn">&#9776;</div>
+    <img src="logo.png" alt="Beranda" id="brand-logo">
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -23,7 +22,7 @@ session_start();
 
     <div class="sidebar">
         <div id="close-btn">&times;</div>
-        <h2>Ziswaf 1445H</h2>
+        <img src="logo.png" alt="Ziswaf 1445H" id="sidebar-logo">
         <div class="sidebar-links">
             <a href="index.php">Beranda</a>
             <a href="form_donasi.php">Form Donasi</a>
