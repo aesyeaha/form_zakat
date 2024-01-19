@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Membuat koneksi ke database MySQL menggunakan MySQLi
 $conn = new mysqli("localhost", "root", "", "zakat_ramadhan");
 
@@ -12,32 +14,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Memproses pengiriman formulir
     if (isset($_POST['submit'])) {
         // Mendapatkan data formulir
-        $gerai = $_POST['gerai'];
-        $petugas_gerai = $_POST['petugas_gerai'];
-        $nama_donatur = $_POST['nama_donatur'];
-        $alamat = $_POST['alamat'];
-        $nomor_hp = $_POST['nomor_hp'];
-        $perincian_donasi = $_POST['perincian_donasi'];
-        $bentuk_donasi = $_POST['bentuk_donasi'];
-        $keterangan = $_POST['keterangan'];
+        $gerai = htmlspecialchars($_POST['gerai']);
+        $petugas_gerai = htmlspecialchars($_POST['petugas_gerai']);
+        $nama_donatur = htmlspecialchars($_POST['nama_donatur']);
+        $alamat = htmlspecialchars($_POST['alamat']);
+        $nomor_hp = htmlspecialchars($_POST['nomor_hp']);
+        $perincian_donasi = htmlspecialchars($_POST['perincian_donasi']);
+        $bentuk_donasi = htmlspecialchars($_POST['bentuk_donasi']);
+        $keterangan = htmlspecialchars($_POST['keterangan']);
 
-        // Memasukkan data ke dalam database
+        // Memasukkan data ke dalam database menggunakan prepared statement
         $sql = "INSERT INTO donasi (gerai, petugas_gerai, nama_donatur, alamat, nomor_hp, perincian_donasi, bentuk_donasi, keterangan)
-                VALUES ('$gerai', '$petugas_gerai', '$nama_donatur', '$alamat', '$nomor_hp', '$perincian_donasi', '$bentuk_donasi', '$keterangan')";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Cetak query untuk debugging
-        echo "Query: $sql<br>";
+        // Mempersiapkan pernyataan
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssss", $gerai, $petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $perincian_donasi, $bentuk_donasi, $keterangan);
 
-        if ($conn->query($sql) === TRUE) {
-            // Pesan berhasil
-            echo "<script>alert('Formulir telah berhasil disimpan!');</script>";
+        // Mengeksekusi pernyataan
+        if ($stmt->execute()) {
+            // Menyimpan data ke dalam sesi
+            $_SESSION['form_data'] = [
+                'gerai' => $gerai,
+                'petugas_gerai' => $petugas_gerai,
+                'nama_donatur' => $nama_donatur,
+                'alamat' => $alamat,
+                'nomor_hp' => $nomor_hp,
+                'perincian_donasi' => $perincian_donasi,
+                'bentuk_donasi' => $bentuk_donasi,
+                'keterangan' => $keterangan
+            ];
+
+            // Memanggil fungsi JavaScript untuk menampilkan pemberitahuan
+            echo '<script>showNotification("Formulir telah berhasil disimpan!");</script>';
+
             // Redirect ke halaman kwitansi
             header("Location: kwitansi.php");
             exit();
         } else {
             // Pesan kesalahan
-            echo "Error: " . $conn->error;
+            echo "Error: " . $stmt->error;
         }
+
+        // Menutup pernyataan
+        $stmt->close();
     }
 }
 
