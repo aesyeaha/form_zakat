@@ -175,7 +175,7 @@ session_start();
                 <option value="Ziauddin Bahtiar">Ziauddin Bahtiar</option>
                 <option value="Zulfi Sufairoh">Zulfi Sufairoh</option>
 
-                <option value="kukuh Nurma Nugroho">kukuh Nurma Nugroho</option>
+                <option value="Kukuh Nurma Nugroho">Kukuh Nurma Nugroho</option>
                 <option value="Makhfud Kurniawan Hidayat">Makhfud Kurniawan Hidayat</option>
                 <option value="Online">Online</option>
             </select>
@@ -198,7 +198,7 @@ session_start();
                 <option value="Sembako Ramadhan">Sembako Ramadhan</option>
 
                 <option value="Tabungan Surga si Copral">Tabungan Surga si Copral</option>
-                <option value="Wakaf Pembangunan Masjid">Wakaf Pembangunan Masjid</option>
+                <option value="Wakaf Pembangunan Masjid">Wakaf Pengembangan Masjid</option>
                 <option value="Wakaf Pembebasan dan Pembangunan PPTQ">Wakaf Pembebasan dan Pembangunan PPTQ</option>
                 <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
                 <option value="Zakat Maal">Infaq dan Shodaqoh</option>

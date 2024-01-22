@@ -264,8 +264,35 @@ nav a:hover {
     border-radius: 5px;
     transition: background-color 0.3s;
     margin-top: 5px;
+    float: right;
 }
 
 .lanjut-button:hover {
     background-color: #1f6690;
+}
+
+.menu-table {
+    width: 90%;
+    border-spacing: 10px; 
+    margin: 0 auto;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd; 
+    padding: 10px; 
+}
+
+.menu-image {
+    width: 100px; 
+    margin-right: 20px;
+}
+
+.menu-description {
+    flex: 1;
+}
+
+.menu-description h3 {
+    margin: 0;
 }
