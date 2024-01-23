@@ -13,13 +13,13 @@ unset($_SESSION['form_data']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kwitan[ si Donasi</title>
+    <title>Kwitansi Donasi</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-primary">
     <div id="toggle-btn">&#9776;</div>
-    <img src="logo.png" alt="Beranda" id="brand-logo">
+    <img src="./image/logo.png" alt="Beranda" id="brand-logo">
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cari</button>
@@ -52,7 +52,7 @@ unset($_SESSION['form_data']);
 
     <div class="sidebar">
         <div id="close-btn">&times;</div>
-        <img src="logo.png" alt="Ziswaf 1445H" id="sidebar-logo">
+        <img src="./image/logo.png" alt="Ziswaf 1445H" id="sidebar-logo">
         <div class="sidebar-links">
             <a href="index.php">Beranda</a>
             <a href="form_donasi.php">Form Donasi</a>

@@ -13,7 +13,7 @@ session_start();
 <body>
     <nav class="navbar navbar-dark bg-primary">
     <div id="toggle-btn">&#9776;</div>
-    <img src="logo.png" alt="Beranda" id="brand-logo">
+    <img src="./image/logo.png" alt="Beranda" id="brand-logo">
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -22,7 +22,7 @@ session_start();
 
     <div class="sidebar">
         <div id="close-btn">&times;</div>
-        <img src="logo.png" alt="Ziswaf 1445H" id="sidebar-logo">
+        <img src="./image/logo.png" alt="Ziswaf 1445H" id="sidebar-logo">
         <div class="sidebar-links">
             <a href="index.php">Beranda</a>
             <a href="form_donasi.php">Form Donasi</a>
@@ -203,13 +203,49 @@ session_start();
                 <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
                 <option value="Zakat Maal">Infaq dan Shodaqoh</option>
                 
-                <option value="Zakat Maal">Zakat Maal</option>
-                <option value="Zakat Fitrah">Zakat Fitrah</option>
+                <option value="Zakat Maal">Zakat Fitrah</option>
+                <option value="Zakat Fitrah">Zakat Maal</option>
             </select>
 
             <label for="bentuk_donasi">Bentuk Donasi:</label>
             <input type="radio" name="bentuk_donasi" value="uang" required> Uang
             <input type="radio" name="bentuk_donasi" value="barang" required> Barang
+
+            <div id="donationAmount" class="hidden">
+            <label for="jumlah_donasi">Jumlah:</label>
+            <input type="text" name="jumlah_donasi" id="jumlah_donasi" required>
+        </div>
+    </div>
+
+    <div id="donation2" class="hidden">
+        <label for="perincian_donasi2">Perincian Donasi Kedua:</label>
+        <select name="perincian_donasi2" id="perincian_donasi2" onchange="showDonationType2()">
+            <option value="Barbeku">Barbeku</option>
+            <option value="Fidyah">Fidyah</option>
+                <option value="Paket Buka Puasa">Paket Buka Puasa</option>
+                <option value="Sembako Ramadhan">Sembako Ramadhan</option>
+
+                <option value="Tabungan Surga si Copral">Tabungan Surga si Copral</option>
+                <option value="Wakaf Pembangunan Masjid">Wakaf Pengembangan Masjid</option>
+                <option value="Wakaf Pembebasan dan Pembangunan PPTQ">Wakaf Pembebasan dan Pembangunan PPTQ</option>
+                <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
+                <option value="Zakat Maal">Infaq dan Shodaqoh</option>
+                
+                <option value="Zakat Maal">Zakat Fitrah</option>
+                <option value="Zakat Fitrah">Zakat Maal</option>
+            </select>
+
+            <div id="donationDetails2" class="hidden">
+            <label for="bentuk_donasi2">Bentuk Donasi:</label>
+            <input type="radio" name="bentuk_donasi2" value="uang" required onclick="showDonationAmount2()"> Uang
+            <input type="radio" name="bentuk_donasi2" value="barang" required onclick="hideDonationAmount2()"> Barang
+
+            <div id="donationAmount2" class="hidden">
+                <label for="jumlah_donasi2">Jumlah:</label>
+                <input type="text" name="jumlah_donasi2" id="jumlah_donasi2" required>
+            </div>
+        </div>
+    </div>
 
             <label for="keterangan">Keterangan:</label>
             <textarea name="keterangan" placeholder="Keterangan"></textarea>
