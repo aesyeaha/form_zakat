@@ -320,3 +320,15 @@ button {
 button:hover {
     background-color: #1f6690;
 }
+
+#additionalDonations {
+    margin-top: 20px;
+}
+
+hr {
+    border: 1px solid #ddd;
+}
+
+.hidden {
+    display: none;
+}

@@ -10,18 +10,18 @@ if ($conn->connect_error) {
 }
 
 // Memeriksa metode permintaan
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     // Memproses pengiriman formulir
-    if (isset($_POST['submit'])) {
-        // Mendapatkan data formulir
-        $gerai = htmlspecialchars($_POST['gerai']);
-        $petugas_gerai = htmlspecialchars($_POST['petugas_gerai']);
-        $nama_donatur = htmlspecialchars($_POST['nama_donatur']);
-        $alamat = htmlspecialchars($_POST['alamat']);
-        $nomor_hp = htmlspecialchars($_POST['nomor_hp']);
-        $perincian_donasi = htmlspecialchars($_POST['perincian_donasi']);
-        $bentuk_donasi = htmlspecialchars($_POST['bentuk_donasi']);
-        $keterangan = htmlspecialchars($_POST['keterangan']);
+    try {
+        // Validasi dan membersihkan input pengguna
+        $gerai = filter_input(INPUT_POST, 'gerai', FILTER_SANITIZE_STRING);
+        $petugas_gerai = filter_input(INPUT_POST, 'petugas_gerai', FILTER_SANITIZE_STRING);
+        $nama_donatur = filter_input(INPUT_POST, 'nama_donatur', FILTER_SANITIZE_STRING);
+        $alamat = filter_input(INPUT_POST, 'alamat', FILTER_SANITIZE_STRING);
+        $nomor_hp = filter_input(INPUT_POST, 'nomor_hp', FILTER_SANITIZE_STRING);
+        $perincian_donasi = filter_input(INPUT_POST, 'perincian_donasi', FILTER_SANITIZE_STRING);
+        $bentuk_donasi = filter_input(INPUT_POST, 'bentuk_donasi', FILTER_SANITIZE_STRING);
+        $keterangan = filter_input(INPUT_POST, 'keterangan', FILTER_SANITIZE_STRING);
 
         // Memasukkan data ke dalam database menggunakan prepared statement
         $sql = "INSERT INTO donasi (gerai, petugas_gerai, nama_donatur, alamat, nomor_hp, perincian_donasi, bentuk_donasi, keterangan)
@@ -53,12 +53,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             // Pesan kesalahan
-            echo "Error: " . $stmt->error;
+            throw new Exception("Error: " . $stmt->error);
         }
-
-        // Menutup pernyataan
-        $stmt->close();
+    } catch (Exception $e) {
+        // Menangani pengecualian, redirect ke halaman kesalahan, atau menampilkan pesan kesalahan yang ramah pengguna
+        echo "Error: " . $e->getMessage();
     }
+
+    // Menutup pernyataan
+    $stmt->close();
 }
 
 // Menutup koneksi database

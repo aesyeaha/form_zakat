@@ -4,16 +4,18 @@ session_start();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Permata Ansyithoh Ramadhan 1445H</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
+
 <body>
     <nav class="navbar navbar-dark bg-primary">
-    <div id="toggle-btn">&#9776;</div>
-    <img src="./image/logo.png" alt="Beranda" id="brand-logo">
+        <div id="toggle-btn">&#9776;</div>
+        <img src="./image/logo.png" alt="Beranda" id="brand-logo">
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -35,7 +37,7 @@ session_start();
 
     <div class="container">
         <h1>Form Donasi Zakat</h1>
-        <form action="form_process.php" method="post">
+        <form action="form_process.php" method="post" id="donationForm">
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
                 <option value="TPA-PS">TPA-PS, DC 1, TK & DC 2</option>
@@ -91,7 +93,7 @@ session_start();
                 <option value="P5">P5</option>
                 <option value="Umum">Umum</option>
             </select>
-            
+
             <label for="gerai">Gerai:</label>
             <select name="gerai" id="gerai">
                 <option value="PAUD">PAUD</option>
@@ -100,7 +102,7 @@ session_start();
                 <option value="MA">MA</option>
                 <option value="Online">Online</option>
             </select>
-            
+
             <label for="petugas_gerai">Petugas Gerai:</label>
             <select name="petugas_gerai" id="petugas_gerai">
                 <option value="A. Burhanuddin">A. Burhanuddin</option>
@@ -191,7 +193,7 @@ session_start();
 
             <label for="perincian_donasi">Perincian Donasi:</label>
             <select name="perincian_donasi" id="perincian_donasi">
-            <option value="Barbeku">Barbeku</option>
+                <option value="Barbeku">Barbeku</option>
                 <option value="Cinta Yatim">Cinta Yatim</option>
                 <option value="Fidyah">Fidyah</option>
                 <option value="Paket Buka Puasa">Paket Buka Puasa</option>
@@ -202,50 +204,43 @@ session_start();
                 <option value="Wakaf Pembebasan dan Pembangunan PPTQ">Wakaf Pembebasan dan Pembangunan PPTQ</option>
                 <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
                 <option value="Zakat Maal">Infaq dan Shodaqoh</option>
-                
+
                 <option value="Zakat Maal">Zakat Fitrah</option>
                 <option value="Zakat Fitrah">Zakat Maal</option>
             </select>
 
             <label for="bentuk_donasi">Bentuk Donasi:</label>
-            <input type="radio" name="bentuk_donasi" value="uang" required> Uang
-            <input type="radio" name="bentuk_donasi" value="barang" required> Barang
+            <input type="radio" name="bentuk_donasi" value="uang" required onclick="tampilkanJenisDonasi('uang')"> Uang
+            <input type="radio" name="bentuk_donasi" value="barang" required onclick="tampilkanJenisDonasi('barang')"> Barang
 
-            <div id="donationAmount" class="hidden">
-            <label for="jumlah_donasi">Jumlah:</label>
-            <input type="text" name="jumlah_donasi" id="jumlah_donasi" required>
-        </div>
-    </div>
-
-    <div id="donation2" class="hidden">
-        <label for="perincian_donasi2">Perincian Donasi Kedua:</label>
-        <select name="perincian_donasi2" id="perincian_donasi2" onchange="showDonationType2()">
-            <option value="Barbeku">Barbeku</option>
-            <option value="Fidyah">Fidyah</option>
-                <option value="Paket Buka Puasa">Paket Buka Puasa</option>
-                <option value="Sembako Ramadhan">Sembako Ramadhan</option>
-
-                <option value="Tabungan Surga si Copral">Tabungan Surga si Copral</option>
-                <option value="Wakaf Pembangunan Masjid">Wakaf Pengembangan Masjid</option>
-                <option value="Wakaf Pembebasan dan Pembangunan PPTQ">Wakaf Pembebasan dan Pembangunan PPTQ</option>
-                <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
-                <option value="Zakat Maal">Infaq dan Shodaqoh</option>
+            <div id="uangDonasi" class="hidden">
+                <label for="jumlah_donasi">Jumlah (Rp):</label>
+                <input type="text" name="jumlah_donasi" id="jumlah_donasi" oninput="hitungTotalUang()" required>
                 
-                <option value="Zakat Maal">Zakat Fitrah</option>
-                <option value="Zakat Fitrah">Zakat Maal</option>
-            </select>
-
-            <div id="donationDetails2" class="hidden">
-            <label for="bentuk_donasi2">Bentuk Donasi:</label>
-            <input type="radio" name="bentuk_donasi2" value="uang" required onclick="showDonationAmount2()"> Uang
-            <input type="radio" name="bentuk_donasi2" value="barang" required onclick="hideDonationAmount2()"> Barang
-
-            <div id="donationAmount2" class="hidden">
-                <label for="jumlah_donasi2">Jumlah:</label>
-                <input type="text" name="jumlah_donasi2" id="jumlah_donasi2" required>
+                <label for="total_donasi">Total (Rp):</label>
+                <input type="text" name="total_donasi" id="total_donasi" readonly>
+                
+                <label for="cara_pembayaran">Cara Pembayaran:</label>
+                <input type="radio" name="cara_pembayaran" value="tunai" required> Tunai
+                <input type="radio" name="cara_pembayaran" value="transfer" required onclick="tampilkanUnggahBukti()"> Transfer
             </div>
-        </div>
-    </div>
+
+            <div id="unggahBukti" class="hidden">
+                <label for="bukti_transfer">Unggah Bukti Transfer:</label>
+                <input type="file" name="bukti_transfer" id="bukti_transfer">
+            </div>
+
+            <div id="barangDonasi" class="hidden">
+                <label for="jumlah_paket">Jumlah Paket:</label>
+                <input type="text" name="jumlah_paket" id="jumlah_paket" oninput="hitungTotalPaket()" required>
+
+                <label for="total_paket">Total Paket:</label>
+                <input type="text" name="total_paket" id="total_paket" readonly>
+            </div>
+
+            <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
+
+            <div id="additionalDonations"></div>
 
             <label for="keterangan">Keterangan:</label>
             <textarea name="keterangan" placeholder="Keterangan"></textarea>
@@ -253,8 +248,11 @@ session_start();
             <button type="submit" name="submit">Save</button>
         </form>
     </div>
-    
-    <script>
+
+</body>
+
+<script>
+
     const toggleBtn = document.getElementById('toggle-btn');
     const closeBtn = document.getElementById('close-btn');
     const sidebar = document.querySelector('.sidebar');
@@ -266,7 +264,115 @@ session_start();
     closeBtn.addEventListener('click', () => {
         sidebar.style.left = '-250px';
     });
-    </script>
+
+    function sembunyikanSemua() {
+            var uangDonasi = document.getElementById('uangDonasi');
+            var barangDonasi = document.getElementById('barangDonasi');
+            var unggahBukti = document.getElementById('unggahBukti');
+
+            uangDonasi.classList.add('hidden');
+            barangDonasi.classList.add('hidden');
+            unggahBukti.classList.add('hidden');
+        }
+
+        function tampilkanJenisDonasi(jenis) {
+            sembunyikanSemua();
+
+            var uangDonasi = document.getElementById('uangDonasi');
+            var barangDonasi = document.getElementById('barangDonasi');
+            var unggahBukti = document.getElementById('unggahBukti');
+
+            if (jenis === 'uang') {
+                uangDonasi.classList.remove('hidden');
+            } else if (jenis === 'barang') {
+                barangDonasi.classList.remove('hidden');
+            }
+        }
+
+        function hitungTotalUang() {
+            var jumlahDonasi = parseFloat(document.getElementById('jumlah_donasi').value) || 0;
+            document.getElementById('total_donasi').value = jumlahDonasi.toFixed(2);
+        }
+
+        function hitungTotalPaket() {
+            var jumlahPaket = parseInt(document.getElementById('jumlah_paket').value) || 0;
+            var totalPaket = parseInt(document.getElementById('total_paket').value) || 0;
+            document.getElementById('total_paket').value = totalPaket + jumlahPaket;
+        }
+
+        function sembunyikanUnggahBukti() {
+            var unggahBukti = document.getElementById('unggahBukti');
+            unggahBukti.classList.add('hidden');
+        }
+
+        function tampilkanUnggahBukti() {
+            sembunyikanUnggahBukti();
+
+            var unggahBukti = document.getElementById('unggahBukti');
+            unggahBukti.classList.remove('hidden');
+        }
+
+        var counter = 1;
+
+        function tambahDonasi() {
+            sembunyikanSemua(); 
+
+            counter++;
+
+            var container = document.getElementById('additionalDonations');
+            var donationContainer = document.createElement('div');
+            donationContainer.innerHTML = `
+                <hr>
+                <label for="perincian_donasi${counter}">Perincian Donasi ${counter}:</label>
+                <select name="perincian_donasi${counter}" id="perincian_donasi${counter}">
+                    <option value="Barbeku">Barbeku</option>
+                    <option value="Cinta Yatim">Cinta Yatim</option>
+                    <option value="Fidyah">Fidyah</option>
+                    <option value="Paket Buka Puasa">Paket Buka Puasa</option>
+                    <option value="Sembako Ramadhan">Sembako Ramadhan</option>
+                    <option value="Tabungan Surga si Copral">Tabungan Surga si Copral</option>
+                    <option value="Wakaf Pembangunan Masjid">Wakaf Pengembangan Masjid</option>
+                    <option value="Wakaf Pembebasan dan Pembangunan PPTQ">Wakaf Pembebasan dan Pembangunan PPTQ</option>
+                    <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
+                    <option value="Zakat Maal">Infaq dan Shodaqoh</option>
+                    <option value="Zakat Fitrah">Zakat Fitrah</option>
+                    <option value="Zakat Maal">Zakat Maal</option>
+                </select>
+
+                <label for="bentuk_donasi${counter}">Bentuk Donasi:</label>
+                <input type="radio" name="bentuk_donasi${counter}" value="uang" required onclick="tampilkanJenisDonasi('uang')"> Uang
+                <input type="radio" name="bentuk_donasi${counter}" value="barang" required onclick="tampilkanJenisDonasi('barang')"> Barang
+
+                <div id="uangDonasi${counter}" class="hidden">
+                    <label for="jumlah_donasi${counter}">Jumlah (Rp):</label>
+                    <input type="text" name="jumlah_donasi${counter}" id="jumlah_donasi${counter}" oninput="hitungTotalUang()" required>
+                    
+                    <label for="total_donasi${counter}">Total (Rp):</label>
+                    <input type="text" name="total_donasi${counter}" id="total_donasi${counter}" readonly>
+                    
+                    <label for="cara_pembayaran${counter}">Cara Pembayaran:</label>
+                    <input type="radio" name="cara_pembayaran${counter}" value="tunai" required> Tunai
+                    <input type="radio" name="cara_pembayaran${counter}" value="transfer" required onclick="tampilkanUnggahBukti()"> Transfer
+                </div>
+
+                <div id="barangDonasi${counter}" class="hidden">
+                    <label for="jumlah_paket${counter}">Jumlah Paket:</label>
+                    <input type="text" name="jumlah_paket${counter}" id="jumlah_paket${counter}" oninput="hitungTotalPaket()" required>
+
+                    <label for="total_paket${counter}">Total Paket:</label>
+                    <input type="text" name="total_paket${counter}" id="total_paket${counter}" readonly>
+                </div>
+
+                <div id="unggahBukti${counter}" class="hidden">
+                    <label for="bukti_transfer${counter}">Unggah Bukti Transfer:</label>
+                    <input type="file" name="bukti_transfer${counter}" id="bukti_transfer${counter}">
+                </div>
+            `;
+
+            container.appendChild(donationContainer);
+        }
+</script>
 
 </body>
+
 </html>
