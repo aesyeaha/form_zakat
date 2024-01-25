@@ -216,36 +216,33 @@ session_start();
             <div id="uangDonasi" class="hidden">
                 <label for="jumlah_donasi">Jumlah (Rp):</label>
                 <input type="text" name="jumlah_donasi" id="jumlah_donasi" oninput="hitungTotalUang()" required>
-                
-                <label for="total_donasi">Total (Rp):</label>
-                <input type="text" name="total_donasi" id="total_donasi" readonly>
-                
-                <label for="cara_pembayaran">Cara Pembayaran:</label>
-                <input type="radio" name="cara_pembayaran" value="tunai" required> Tunai
-                <input type="radio" name="cara_pembayaran" value="transfer" required onclick="tampilkanUnggahBukti()"> Transfer
-            </div>
-
-            <div id="unggahBukti" class="hidden">
-                <label for="bukti_transfer">Unggah Bukti Transfer:</label>
-                <input type="file" name="bukti_transfer" id="bukti_transfer">
             </div>
 
             <div id="barangDonasi" class="hidden">
                 <label for="jumlah_paket">Jumlah Paket:</label>
                 <input type="text" name="jumlah_paket" id="jumlah_paket" oninput="hitungTotalPaket()" required>
-
-                <label for="total_paket">Total Paket:</label>
-                <input type="text" name="total_paket" id="total_paket" readonly>
             </div>
 
             <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
 
             <div id="additionalDonations"></div>
 
+            <div id="totalSection" class="hidden">
+                <label for="total">Total:</label>
+                <input type="text" name="total" id="total" readonly>
+            </div>
+
+            <div id="caraPembayaranSection" class="hidden">
+                <label for="cara_pembayaran">Cara Pembayaran:</label>
+                <input type="radio" name="cara_pembayaran" value="tunai" required> Tunai
+                <input type="radio" name="cara_pembayaran" value="transfer" required onclick="tampilkanUnggahBukti()"> Transfer
+            </div>
+
             <label for="keterangan">Keterangan:</label>
             <textarea name="keterangan" placeholder="Keterangan"></textarea>
 
             <button type="submit" name="submit">Save</button>
+
         </form>
     </div>
 
@@ -266,111 +263,83 @@ session_start();
     });
 
     function sembunyikanSemua() {
-            var uangDonasi = document.getElementById('uangDonasi');
-            var barangDonasi = document.getElementById('barangDonasi');
-            var unggahBukti = document.getElementById('unggahBukti');
+        var uangDonasi = document.getElementById('uangDonasi');
+        var barangDonasi = document.getElementById('barangDonasi');
+        var totalSection = document.getElementById('totalSection');
+        var caraPembayaranSection = document.getElementById('caraPembayaranSection');
 
-            uangDonasi.classList.add('hidden');
-            barangDonasi.classList.add('hidden');
-            unggahBukti.classList.add('hidden');
+        uangDonasi.classList.add('hidden');
+        barangDonasi.classList.add('hidden');
+        totalSection.classList.add('hidden');
+        caraPembayaranSection.classList.add('hidden');
+    }
+
+    function tampilkanJenisDonasi(jenis) {
+        sembunyikanSemua();
+
+        if (jenis === 'uang') {
+            document.getElementById('uangDonasi').classList.remove('hidden');
+        } else if (jenis === 'barang') {
+            document.getElementById('barangDonasi').classList.remove('hidden');
         }
+    }
 
-        function tampilkanJenisDonasi(jenis) {
-            sembunyikanSemua();
+    function hitungTotalUang() {
+        var jumlahDonasi = parseFloat(document.getElementById('jumlah_donasi').value) || 0;
+        document.getElementById('total').value = jumlahDonasi.toFixed(2);
+    }
 
-            var uangDonasi = document.getElementById('uangDonasi');
-            var barangDonasi = document.getElementById('barangDonasi');
-            var unggahBukti = document.getElementById('unggahBukti');
+    function hitungTotalPaket() {
+        var jumlahPaket = parseInt(document.getElementById('jumlah_paket').value) || 0;
+        document.getElementById('total').value = jumlahPaket;
+    }
 
-            if (jenis === 'uang') {
-                uangDonasi.classList.remove('hidden');
-            } else if (jenis === 'barang') {
-                barangDonasi.classList.remove('hidden');
-            }
+    function tampilkanUnggahBukti() {
+        var caraPembayaranSection = document.getElementById('caraPembayaranSection');
+        caraPembayaranSection.classList.remove('hidden');
+    }
+
+    var counter = 1;
+
+    function tambahDonasi() {
+        sembunyikanSemua();
+
+        counter++;
+
+        var container = document.getElementById('additionalDonations');
+        var donationContainer = document.createElement('div');
+        donationContainer.innerHTML = `
+            <hr>
+            <label for="perincian_donasi${counter}">Perincian Donasi ${counter}:</label>
+            <select name="perincian_donasi${counter}" id="perincian_donasi${counter}">
+                <!-- Options for donation types -->
+                <option value="Barbeku">Barbeku</option>
+                <option value="Cinta Yatim">Cinta Yatim</option>
+                <!-- Add other donation options -->
+            </select>
+
+            <label for="bentuk_donasi${counter}">Bentuk Donasi:</label>
+            <input type="radio" name="bentuk_donasi${counter}" value="uang" required onclick="tampilkanJenisDonasi('uang')"> Uang
+            <input type="radio" name="bentuk_donasi${counter}" value="barang" required onclick="tampilkanJenisDonasi('barang')"> Barang
+
+            <div id="uangDonasi${counter}" class="hidden">
+                <label for="jumlah_donasi${counter}">Jumlah (Rp):</label>
+                <input type="text" name="jumlah_donasi${counter}" id="jumlah_donasi${counter}" oninput="hitungTotalUang()" required>
+            </div>
+
+            <div id="barangDonasi${counter}" class="hidden">
+                <label for="jumlah_paket${counter}">Jumlah Paket:</label>
+                <input type="text" name="jumlah_paket${counter}" id="jumlah_paket${counter}" oninput="hitungTotalPaket()" required>
+            </div>
+        `;
+
+        container.appendChild(donationContainer);
+
+        if (counter === 2) {
+            document.getElementById('totalSection').classList.remove('hidden');
+            document.getElementById('caraPembayaranSection').classList.remove('hidden');
         }
-
-        function hitungTotalUang() {
-            var jumlahDonasi = parseFloat(document.getElementById('jumlah_donasi').value) || 0;
-            document.getElementById('total_donasi').value = jumlahDonasi.toFixed(2);
-        }
-
-        function hitungTotalPaket() {
-            var jumlahPaket = parseInt(document.getElementById('jumlah_paket').value) || 0;
-            var totalPaket = parseInt(document.getElementById('total_paket').value) || 0;
-            document.getElementById('total_paket').value = totalPaket + jumlahPaket;
-        }
-
-        function sembunyikanUnggahBukti() {
-            var unggahBukti = document.getElementById('unggahBukti');
-            unggahBukti.classList.add('hidden');
-        }
-
-        function tampilkanUnggahBukti() {
-            sembunyikanUnggahBukti();
-
-            var unggahBukti = document.getElementById('unggahBukti');
-            unggahBukti.classList.remove('hidden');
-        }
-
-        var counter = 1;
-
-        function tambahDonasi() {
-            sembunyikanSemua(); 
-
-            counter++;
-
-            var container = document.getElementById('additionalDonations');
-            var donationContainer = document.createElement('div');
-            donationContainer.innerHTML = `
-                <hr>
-                <label for="perincian_donasi${counter}">Perincian Donasi ${counter}:</label>
-                <select name="perincian_donasi${counter}" id="perincian_donasi${counter}">
-                    <option value="Barbeku">Barbeku</option>
-                    <option value="Cinta Yatim">Cinta Yatim</option>
-                    <option value="Fidyah">Fidyah</option>
-                    <option value="Paket Buka Puasa">Paket Buka Puasa</option>
-                    <option value="Sembako Ramadhan">Sembako Ramadhan</option>
-                    <option value="Tabungan Surga si Copral">Tabungan Surga si Copral</option>
-                    <option value="Wakaf Pembangunan Masjid">Wakaf Pengembangan Masjid</option>
-                    <option value="Wakaf Pembebasan dan Pembangunan PPTQ">Wakaf Pembebasan dan Pembangunan PPTQ</option>
-                    <option value="Wakaf al-Qur'an">Wakaf al-Qur'an</option>
-                    <option value="Zakat Maal">Infaq dan Shodaqoh</option>
-                    <option value="Zakat Fitrah">Zakat Fitrah</option>
-                    <option value="Zakat Maal">Zakat Maal</option>
-                </select>
-
-                <label for="bentuk_donasi${counter}">Bentuk Donasi:</label>
-                <input type="radio" name="bentuk_donasi${counter}" value="uang" required onclick="tampilkanJenisDonasi('uang')"> Uang
-                <input type="radio" name="bentuk_donasi${counter}" value="barang" required onclick="tampilkanJenisDonasi('barang')"> Barang
-
-                <div id="uangDonasi${counter}" class="hidden">
-                    <label for="jumlah_donasi${counter}">Jumlah (Rp):</label>
-                    <input type="text" name="jumlah_donasi${counter}" id="jumlah_donasi${counter}" oninput="hitungTotalUang()" required>
-                    
-                    <label for="total_donasi${counter}">Total (Rp):</label>
-                    <input type="text" name="total_donasi${counter}" id="total_donasi${counter}" readonly>
-                    
-                    <label for="cara_pembayaran${counter}">Cara Pembayaran:</label>
-                    <input type="radio" name="cara_pembayaran${counter}" value="tunai" required> Tunai
-                    <input type="radio" name="cara_pembayaran${counter}" value="transfer" required onclick="tampilkanUnggahBukti()"> Transfer
-                </div>
-
-                <div id="barangDonasi${counter}" class="hidden">
-                    <label for="jumlah_paket${counter}">Jumlah Paket:</label>
-                    <input type="text" name="jumlah_paket${counter}" id="jumlah_paket${counter}" oninput="hitungTotalPaket()" required>
-
-                    <label for="total_paket${counter}">Total Paket:</label>
-                    <input type="text" name="total_paket${counter}" id="total_paket${counter}" readonly>
-                </div>
-
-                <div id="unggahBukti${counter}" class="hidden">
-                    <label for="bukti_transfer${counter}">Unggah Bukti Transfer:</label>
-                    <input type="file" name="bukti_transfer${counter}" id="bukti_transfer${counter}">
-                </div>
-            `;
-
-            container.appendChild(donationContainer);
-        }
+    }
 </script>
 
 </body>
