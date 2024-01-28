@@ -1,11 +1,15 @@
 <?php
 session_start();
 
-// Ambil data formulir dari sesi
-$formData = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : null;
+// Ambil ID donasi dari query string
+$id_donasi = isset($_GET['id_donasi']) ? $_GET['id_donasi'] : null;
 
-// Hapus data formulir dari sesi (opsional)
-unset($_SESSION['form_data']);
+if (!$id_donasi) {
+    // Redirect jika ID donasi tidak valid
+    header("Location: form_donasi.php");
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>

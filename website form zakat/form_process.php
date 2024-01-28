@@ -1,69 +1,96 @@
 <?php
 session_start();
 
-// Membuat koneksi ke database MySQL menggunakan MySQLi
-$conn = new mysqli("localhost", "root", "", "zakat_ramadhan");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id_donatur = $_POST["id_donatur"];
+    $nama_donatur = $_POST["nama_donatur"];
+    $alamat_donatur = $_POST["alamat"];
+    $telepon_donatur = $_POST["nomor_hp"];
 
-// Memeriksa koneksi
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
+    $donasiCount = count($_POST["perincian_donasi"]);
 
-// Memeriksa metode permintaan
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
-    // Memproses pengiriman formulir
+    $donasiDetails = [];
+    $totalRp = 0;
+    $totalPaket = 0;
+
+    // Koneksi ke database
+    $host = "localhost";
+    $dbname = "zakatramadhan";
+    $username = "root";
+    $password = "";
+
     try {
-        // Validasi dan membersihkan input pengguna
-        $gerai = filter_input(INPUT_POST, 'gerai', FILTER_SANITIZE_STRING);
-        $petugas_gerai = filter_input(INPUT_POST, 'petugas_gerai', FILTER_SANITIZE_STRING);
-        $nama_donatur = filter_input(INPUT_POST, 'nama_donatur', FILTER_SANITIZE_STRING);
-        $alamat = filter_input(INPUT_POST, 'alamat', FILTER_SANITIZE_STRING);
-        $nomor_hp = filter_input(INPUT_POST, 'nomor_hp', FILTER_SANITIZE_STRING);
-        $perincian_donasi = filter_input(INPUT_POST, 'perincian_donasi', FILTER_SANITIZE_STRING);
-        $bentuk_donasi = filter_input(INPUT_POST, 'bentuk_donasi', FILTER_SANITIZE_STRING);
-        $keterangan = filter_input(INPUT_POST, 'keterangan', FILTER_SANITIZE_STRING);
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Memasukkan data ke dalam database menggunakan prepared statement
-        $sql = "INSERT INTO donasi (gerai, petugas_gerai, nama_donatur, alamat, nomor_hp, perincian_donasi, bentuk_donasi, keterangan)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // Memulai transaksi
+        $pdo->beginTransaction();
 
-        // Mempersiapkan pernyataan
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssssss", $gerai, $petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $perincian_donasi, $bentuk_donasi, $keterangan);
+        // Menyimpan data donasi ke tabel donasi
+        $queryDonasi = $pdo->prepare("INSERT INTO donasi (id_donatur, nama_donatur, alamat_donatur, telepon_donatur) 
+                                      VALUES (:id_donatur, :nama_donatur, :alamat_donatur, :telepon_donatur)");
+        $queryDonasi->bindParam(":id_donatur", $id_donatur);
+        $queryDonasi->bindParam(":nama_donatur", $nama_donatur);
+        $queryDonasi->bindParam(":alamat_donatur", $alamat_donatur);
+        $queryDonasi->bindParam(":telepon_donatur", $telepon_donatur);
+        $queryDonasi->execute();
 
-        // Mengeksekusi pernyataan
-        if ($stmt->execute()) {
-            // Menyimpan data ke dalam sesi
-            $_SESSION['form_data'] = [
-                'gerai' => $gerai,
-                'petugas_gerai' => $petugas_gerai,
-                'nama_donatur' => $nama_donatur,
-                'alamat' => $alamat,
-                'nomor_hp' => $nomor_hp,
-                'perincian_donasi' => $perincian_donasi,
-                'bentuk_donasi' => $bentuk_donasi,
-                'keterangan' => $keterangan
-            ];
+        // Mendapatkan ID donasi yang baru saja disimpan
+        $id_donasi = $pdo->lastInsertId();
 
-            // Memanggil fungsi JavaScript untuk menampilkan pemberitahuan
-            echo '<script>showNotification("Formulir telah berhasil disimpan!");</script>';
+        // Menyimpan data rincian donasi ke tabel rincian_donasi
+        $queryRincianDonasi = $pdo->prepare("INSERT INTO rincian_donasi (id_donasi, bentuk_donasi, perincian_donasi, jumlah_rp, jumlah_paket) 
+                                            VALUES (:id_donasi, :bentuk_donasi, :perincian_donasi, :jumlah_rp, :jumlah_paket)");
 
-            // Redirect ke halaman kwitansi
-            header("Location: kwitansi.php");
-            exit();
-        } else {
-            // Pesan kesalahan
-            throw new Exception("Error: " . $stmt->error);
+        for ($i = 1; $i <= $donasiCount; $i++) {
+            $bentukDonasi = $_POST["bentuk_donasi_" . $i];
+            $perincianDonasi = $_POST["perincian_donasi_" . $i];
+            $jumlahRp = ($bentukDonasi === "uang") ? $_POST["jumlah_rp_" . $i] : 0;
+            $jumlahPaket = ($bentukDonasi === "barang") ? $_POST["jumlah_paket_" . $i] : 0;
+
+            // Bind parameters
+            $queryRincianDonasi->bindParam(":id_donasi", $id_donasi);
+            $queryRincianDonasi->bindParam(":bentuk_donasi", $bentukDonasi);
+            $queryRincianDonasi->bindParam(":perincian_donasi", $perincianDonasi);
+            $queryRincianDonasi->bindParam(":jumlah_rp", $jumlahRp);
+            $queryRincianDonasi->bindParam(":jumlah_paket", $jumlahPaket);
+
+            // Execute query
+            $queryRincianDonasi->execute();
+
+            $totalRp += $jumlahRp;
+            $totalPaket += $jumlahPaket;
         }
-    } catch (Exception $e) {
-        // Menangani pengecualian, redirect ke halaman kesalahan, atau menampilkan pesan kesalahan yang ramah pengguna
+
+        // Commit transaksi
+        $pdo->commit();
+
+        // Set session untuk ID donasi
+        $_SESSION["id_donasi"] = $id_donasi;
+
+        // Check if bukti pembayaran is uploaded
+        if (isset($_FILES['bukti_pembayaran']) && $_FILES['bukti_pembayaran']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'path/to/upload/directory/';
+            $uploadFile = $uploadDir . basename($_FILES['bukti_pembayaran']['name']);
+
+            // Move uploaded file to desired directory
+            move_uploaded_file($_FILES['bukti_pembayaran']['tmp_name'], $uploadFile);
+        }
+
+        // Redirect ke halaman kwitansi.php dengan membawa ID donasi
+        header("Location: kwitansi.php?id_donasi=$id_donasi");
+        exit();
+
+    } catch (PDOException $e) {
+        // Rollback transaksi jika terjadi kesalahan
+        $pdo->rollBack();
         echo "Error: " . $e->getMessage();
+    } finally {
+        $pdo = null;
     }
-
-    // Menutup pernyataan
-    $stmt->close();
+} else {
+    // Redirect ke halaman form_donasi.php jika tidak ada data POST
+    header("Location: form_donasi.php");
+    exit();
 }
-
-// Menutup koneksi database
-$conn->close();
 ?>
