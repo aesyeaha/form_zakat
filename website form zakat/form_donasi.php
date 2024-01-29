@@ -40,58 +40,31 @@ session_start();
         <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;" enctype="multipart/form-data">
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
-                <option value="TPA-PS">TPA-PS, DC 1, TK & DC 2</option>
-                <option value="PGIT">PGIT</option>
-                <option value="TK-A1 - A2">TK-A1 - A2</option>
-                <option value="TK-A3 - A5">TK-A3 - A5</option>
-                <option value="TK-B1 - B2">TK-B1 - B2</option>
-                <option value="TK-B3 - B4">TK-B3 - B4</option>
-                <option value="SD-1A">SD-1A</option>
-                <option value="SD-1B">SD-1B</option>
-                <option value="SD-1C">SD-1C</option>
-                <option value="SD-1D">SD-1D</option>
-                <option value="SD-1|CP">SD-1|CP</option>
-                <option value="SD-2A">SD-2A</option>
-                <option value="SD-2B">SD-2B</option>
-                <option value="SD-2C">SD-2C</option>
-                <option value="SD-2D">SD-2D</option>
-                <option value="SD-3A">SD-3A</option>
-                <option value="SD-3B">SD-3B</option>
-                <option value="SD-3C">SD-3C</option>
-                <option value="SD-3D">SD-3D</option>
-                <option value="SD-4A">SD-4A</option>
-                <option value="SD-4B">SD-4B</option>
-                <option value="SD-4C">SD-4C</option>
-                <option value="SD-4D">SD-4D</option>
-                <option value="SD-5A">SD-5A</option>
-                <option value="SD-5B">SD-5B</option>
-                <option value="SD-5C">SD-5C</option>
-                <option value="SD-5D">SD-5D</option>
-                <option value="SD-6A">SD-6A</option>
-                <option value="SD-6B">SD-6B</option>
-                <option value="SD-6C">SD-6C</option>
-                <option value="SD-6D">SD-6D</option>
-                <option value="SMP-7A">SMP-7A</option>
-                <option value="SMP-7B">SMP-7B</option>
-                <option value="SMP-7C">SMP-7C</option>
-                <option value="SMP-7D">SMP-7D</option>
-                <option value="SMP-8A">SMP-8A</option>
-                <option value="SMP-8B">SMP-8B</option>
-                <option value="SMP-8C">SMP-8C</option>
-                <option value="SMP-8D">SMP-8D</option>
-                <option value="SMP-9A">SMP-9A</option>
-                <option value="SMP-9B">SMP-9B</option>
-                <option value="SMP-9C">SMP-9C</option>
-                <option value="SMP-9D">SMP-9D</option>
-                <option value="MA-10">MA-10</option>
-                <option value="MA-11">MA-11</option>
-                <option value="MA-12">MA-12</option>
-                <option value="P1">P1</option>
-                <option value="P2">P2</option>
-                <option value="P3">P3</option>
-                <option value="P4">P4</option>
-                <option value="P5">P5</option>
-                <option value="Umum">Umum</option>
+            <?php
+        // Sambungkan ke database (gantilah dengan kredensial database Anda)
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "zakat_ramadhan_";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Periksa koneksi
+        if ($conn->connect_error) {
+            die("Koneksi gagal: " . $conn->connect_error);
+        }
+
+        // Query untuk mendapatkan opsi dari database
+        $query = "SELECT id_donasi, nama_id_donatur FROM donasi_data";
+$result = $conn->query($query);
+
+// Tampilkan opsi di dropdown
+while ($row = $result->fetch_assoc()) {
+    echo "<option value='" . $row['id_donasi'] . "'>" . $row['nama_id_donatur'] . "</option>";
+}
+        // Tutup koneksi
+        $conn->close();
+        ?>
             </select>
 
             <label for="gerai">Gerai:</label>
