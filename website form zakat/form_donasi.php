@@ -41,118 +41,90 @@ session_start();
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
             <?php
-        // Sambungkan ke database (gantilah dengan kredensial database Anda)
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "zakat_ramadhan_";
+            // Sambungkan ke database (gantilah dengan kredensial database Anda)
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "ziswaf";
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-        // Periksa koneksi
-        if ($conn->connect_error) {
-            die("Koneksi gagal: " . $conn->connect_error);
-        }
+    // Periksa koneksi
+    if ($conn->connect_error) {
+        die("Koneksi gagal: " . $conn->connect_error);
+    }
 
-        // Query untuk mendapatkan opsi dari database
-        $query = "SELECT id_donasi, nama_id_donatur FROM donasi_data";
-$result = $conn->query($query);
+    // Query untuk mendapatkan opsi gerai dari database
+    $query_gerai = "SELECT DISTINCT nama_id_donatur FROM donasi_data";
+    $result_gerai = $conn->query($query_gerai);
 
-// Tampilkan opsi di dropdown
-while ($row = $result->fetch_assoc()) {
-    echo "<option value='" . $row['id_donasi'] . "'>" . $row['nama_id_donatur'] . "</option>";
-}
-        // Tutup koneksi
-        $conn->close();
-        ?>
+    // Tampilkan opsi gerai di dropdown
+    while ($row_gerai = $result_gerai->fetch_assoc()) {
+        echo "<option value='" . $row_gerai['nama_id_donatur'] . "'>" . $row_gerai['nama_id_donatur'] . "</option>";
+    }
+
+    // Tutup koneksi
+    $conn->close();
+    ?>
             </select>
 
             <label for="gerai">Gerai:</label>
             <select name="gerai" id="gerai">
-                <option value="PAUD">PAUD</option>
-                <option value="SD">SD</option>
-                <option value="SMP">SMP</option>
-                <option value="MA">MA</option>
-                <option value="Online">Online</option>
+                <?php
+            // Sambungkan ke database (gantilah dengan kredensial database Anda)
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "ziswaf";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Periksa koneksi
+    if ($conn->connect_error) {
+        die("Koneksi gagal: " . $conn->connect_error);
+    }
+
+    // Query untuk mendapatkan opsi gerai dari database
+    $query_gerai = "SELECT DISTINCT gerai FROM donasi_data";
+    $result_gerai = $conn->query($query_gerai);
+
+    // Tampilkan opsi gerai di dropdown
+    while ($row_gerai = $result_gerai->fetch_assoc()) {
+        echo "<option value='" . $row_gerai['gerai'] . "'>" . $row_gerai['gerai'] . "</option>";
+    }
+
+    // Tutup koneksi
+    $conn->close();
+    ?>
             </select>
 
             <label for="petugas_gerai">Petugas Gerai:</label>
             <select name="petugas_gerai" id="petugas_gerai">
-                <option value="A. Burhanuddin">A. Burhanuddin</option>
-                <option value="Achmad Nurkholik">Achmad Nurkholik</option>
-                <option value="Agustin Wahyuningtyas">Agustin Wahyuningtyas</option>
-                <option value="Akhada Irmawati">Akhada Irmawati</option>
-                <option value="Akhmad Anwar Sadad">Akhmad Anwar Sadad</option>
+            <?php
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "ziswaf";
+                // Menambahkan opsi dari database untuk petugas gerai
+                $conn = new mysqli($servername, $username, $password, $dbname);
 
-                <option value="Alynia Purwaning">Alynia Purwaning</option>
-                <option value="Andika Setyobudi">Andika Setyobudi</option>
-                <option value="Choirul Purwati">Choirul Purwati</option>
-                <option value="Chusniatul Khisoli">Chusniatul Khisoli</option>
-                <option value="Chusnul Chotimah">Chusnul Chotimah</option>
+                // Periksa koneksi
+                if ($conn->connect_error) {
+                    die("Koneksi gagal: " . $conn->connect_error);
+                }
 
-                <option value="Dafis Luqqi Muzakki">Dafis Luqqi Muzakki</option>
-                <option value="Dani Setiawan">Dani Setiawan</option>
-                <option value="Denny Sandyarani">Denny Sandyarani</option>
-                <option value="Devi Antika Sari">Devi Antika Sari</option>
-                <option value="Djuniati Kustifah">Djuniati Kustifah</option>
+                // Query untuk mendapatkan opsi petugas gerai dari database
+                $query_petugas = "SELECT DISTINCT petugas_gerai FROM donasi_data";
+                $result_petugas = $conn->query($query_petugas);
 
-                <option value="Dwi Cahyanti Yuliasih">Dwi Cahyanti Yuliasih</option>
-                <option value="Eka Saryani">Eka Saryani</option>
-                <option value="Elly Faizah">Elly Faizah</option>
-                <option value="Fashiha Ulinnuha">Fashiha Ulinnuh</option>
-                <option value="Fitria Kurnia Fatma">Fitria Kurnia Fatma</option>
+                // Tampilkan opsi petugas gerai di dropdown
+                while ($row_petugas = $result_petugas->fetch_assoc()) {
+                    echo "<option value='" . $row_petugas['petugas_gerai'] . "'>" . $row_petugas['petugas_gerai'] . "</option>";
+                }
 
-                <option value="Fitria">Fitria</option>
-                <option value="Gori Laksana Lusfida">Gori Laksana Lusfida</option>
-                <option value="Ida Susanti">Ida Susanti</option>
-                <option value="Ismi Mardiyanah">Ismi Mardiyanah</option>
-                <option value="Khurin Alifia Yahya">Khurin Alifia Yahya</option>
-
-                <option value="Khusnul Feryka A. Sari">Khusnul Feryka A. Sari</option>
-                <option value="Khusnul Khotimah">Khusnul Khotimah</option>
-                <option value="Krisdianto">Krisdianto</option>
-                <option value="Listiyowati">Listiyowati</option>
-                <option value="M. Hafidz Sulistyawan">M. Hafidz Sulistyawan</option>
-
-                <option value="M. Januar Arifin">M. Januar Arifin</option>
-                <option value="Mastoni Muhajirin">Mastoni Muhajirin</option>
-                <option value="Muhammad Hullah">Muhammad Hullah</option>
-                <option value="Nani Harpanti">Nani Harpanti</option>
-                <option value="Nila Meirinda Wardhani">Nila Meirinda Wardhani</option>
-
-                <option value="Ninik Ikawanti">Ninik Ikawanti</option>
-                <option value="Ninik Kuswahyuni">Ninik Kuswahyuni</option>
-                <option value="Novita Mauris">Novita Mauris</option>
-                <option value="Nur Aisyiyah">Nur Aisyiyah</option>
-                <option value="Nur Miftahul Hikmah">Nur Miftahul Hikmah</option>
-
-                <option value="Nurul Hidajati">Nurul Hidajati</option>
-                <option value="Puny Komariah">Puny Komariah</option>
-                <option value="Ramadani Akhirul">Ramadani Akhirul</option>
-                <option value="Rhiza Arif Firman">Rhiza Arif Firman</option>
-                <option value="Roviatin Kurnia">Roviatin Kurnia</option>
-
-                <option value="Saidah">Saidah</option>
-                <option value="Santi Islamy Romadhony A">Santi Islamy Romadhony A</option>
-                <option value="Siti Masruroh">Siti Masruroh</option>
-                <option value="Siti Rukoiyah Ulfah">Siti Rukoiyah Ulfah</option>
-                <option value="Sri Handayani">Sri Handayani</option>
-
-                <option value="Suyanti">Suyanti</option>
-                <option value="Ulil Fadhilah">Ulil Fadhilah</option>
-                <option value="Umi Fauziah">Umi Fauziah</option>
-                <option value="Umi Khusnul">Umi Khusnul</option>
-                <option value="Wahyuningsih">Wahyuningsih</option>
-
-                <option value="Wiwit Sofiyanti Budiono">Wiwit Sofiyanti Budiono</option>
-                <option value="Yanuati Intan">Yanuati Intan</option>
-                <option value="Yuni Ikhsaniah">Yuni Ikhsaniah</option>
-                <option value="Ziauddin Bahtiar">Ziauddin Bahtiar</option>
-                <option value="Zulfi Sufairoh">Zulfi Sufairoh</option>
-
-                <option value="Kukuh Nurma Nugroho">Kukuh Nurma Nugroho</option>
-                <option value="Makhfud Kurniawan Hidayat">Makhfud Kurniawan Hidayat</option>
-                <option value="Online">Online</option>
+                // Tutup koneksi
+                $conn->close();
+                ?>
             </select>
 
             <label for="nama_donatur">Nama Donatur:</label>
@@ -186,6 +158,7 @@ while ($row = $result->fetch_assoc()) {
                 <select name="cara_pembayaran" id="cara_pembayaran">
                     <option value="tunai">Tunai</option>
                     <option value="transfer">Transfer</option>
+                    <option value="tunai">Barang</option>
                 </select>
             </div>
 
