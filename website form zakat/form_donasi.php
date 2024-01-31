@@ -31,100 +31,62 @@ session_start();
         </div>
         <div class="sidebar-buttons">
             <button id="share-btn">Share</button>
-            <button id="about-btn">About</button>
+                <button id="about-btn">About</button>
         </div>
     </div>
 
     <div class="container">
         <h1>Form Donasi Zakat</h1>
-        <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;" enctype="multipart/form-data">
+        <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;"
+            enctype="multipart/form-data">
+
+            <?php
+            include 'db_connection.php';
+
+            // Query untuk dropdown id_donatur 
+            $query_donatur = "SELECT DISTINCT id_donatur, nama_id_donatur FROM donatur";
+            $stmt_donatur = $conn->prepare($query_donatur);
+            $stmt_donatur->execute();
+            $result_donatur = $stmt_donatur->get_result();
+
+            // Query untuk dropdown gerai 
+            $query_gerai = "SELECT DISTINCT nama_gerai FROM gerai";
+            $stmt_gerai = $conn->prepare($query_gerai);
+            $stmt_gerai->execute();
+            $result_gerai = $stmt_gerai->get_result();
+
+            // Query untuk dropdown petugas_gerai 
+            $query_petugas = "SELECT DISTINCT nama_petugas_gerai FROM petugas_gerai";
+            $stmt_petugas = $conn->prepare($query_petugas);
+            $stmt_petugas->execute();
+            $result_petugas = $stmt_petugas->get_result();
+            ?>
+
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
             <?php
-            // Sambungkan ke database (gantilah dengan kredensial database Anda)
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "ziswaf";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Periksa koneksi
-    if ($conn->connect_error) {
-        die("Koneksi gagal: " . $conn->connect_error);
-    }
-
-    // Query untuk mendapatkan opsi gerai dari database
-    $query_gerai = "SELECT DISTINCT nama_id_donatur FROM donasi_data";
-    $result_gerai = $conn->query($query_gerai);
-
-    // Tampilkan opsi gerai di dropdown
-    while ($row_gerai = $result_gerai->fetch_assoc()) {
-        echo "<option value='" . $row_gerai['nama_id_donatur'] . "'>" . $row_gerai['nama_id_donatur'] . "</option>";
-    }
-
-    // Tutup koneksi
-    $conn->close();
-    ?>
+            while ($row_donatur = $result_donatur->fetch_assoc()) {
+                echo "<option value='" . $row_donatur['id_donatur'] . "'>" . $row_donatur['nama_id_donatur'] . "</option>";
+            }
+            ?>
             </select>
 
             <label for="gerai">Gerai:</label>
             <select name="gerai" id="gerai">
-                <?php
-            // Sambungkan ke database (gantilah dengan kredensial database Anda)
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "ziswaf";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Periksa koneksi
-    if ($conn->connect_error) {
-        die("Koneksi gagal: " . $conn->connect_error);
-    }
-
-    // Query untuk mendapatkan opsi gerai dari database
-    $query_gerai = "SELECT DISTINCT gerai FROM donasi_data";
-    $result_gerai = $conn->query($query_gerai);
-
-    // Tampilkan opsi gerai di dropdown
-    while ($row_gerai = $result_gerai->fetch_assoc()) {
-        echo "<option value='" . $row_gerai['gerai'] . "'>" . $row_gerai['gerai'] . "</option>";
-    }
-
-    // Tutup koneksi
-    $conn->close();
-    ?>
+            <?php
+            while ($row_gerai = $result_gerai->fetch_assoc()) {
+                echo "<option value='" . $row_gerai['nama_gerai'] . "'>" . $row_gerai['nama_gerai'] . "</option>";
+            }
+            ?>
             </select>
 
             <label for="petugas_gerai">Petugas Gerai:</label>
             <select name="petugas_gerai" id="petugas_gerai">
             <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "ziswaf";
-                // Menambahkan opsi dari database untuk petugas gerai
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                // Periksa koneksi
-                if ($conn->connect_error) {
-                    die("Koneksi gagal: " . $conn->connect_error);
-                }
-
-                // Query untuk mendapatkan opsi petugas gerai dari database
-                $query_petugas = "SELECT DISTINCT petugas_gerai FROM donasi_data";
-                $result_petugas = $conn->query($query_petugas);
-
-                // Tampilkan opsi petugas gerai di dropdown
-                while ($row_petugas = $result_petugas->fetch_assoc()) {
-                    echo "<option value='" . $row_petugas['petugas_gerai'] . "'>" . $row_petugas['petugas_gerai'] . "</option>";
-                }
-
-                // Tutup koneksi
-                $conn->close();
-                ?>
+            while ($row_petugas = $result_petugas->fetch_assoc()) {
+                echo "<option value='" . $row_petugas['nama_petugas_gerai'] . "'>" . $row_petugas['nama_petugas_gerai'] . "</option>";
+            }
+            ?>
             </select>
 
             <label for="nama_donatur">Nama Donatur:</label>
@@ -189,11 +151,14 @@ session_start();
     });
 
     let donasiCount = 0;
+    let jumlahRpValues = [];
+    let jumlahPaketValues = [];
 
     function tambahDonasi() {
         const donasiDetails = document.getElementById('donasiDetails');
+        const donasiCountInput = document.getElementById('donasiCount');
 
-        donasiDetails.innerHTML += `
+        donasiDetails.innerHTML +=  `
             <h2>Donasi ${donasiCount + 1}</h2>
             <label for="perincian_donasi_${donasiCount + 1}">Perincian Donasi:</label>
             <select name="perincian_donasi_${donasiCount + 1}" id="perincian_donasi_${donasiCount + 1}">
@@ -230,9 +195,15 @@ session_start();
             <input type="text" name="jumlah_paket_${donasiCount}" id="jumlah_paket_${donasiCount}" placeholder="Masukkan Jumlah Paket jika memilih bentuk donasi Barang" required>
         </div>
     `;
+    
+        donasiCountInput.value = donasiCount;
+
+        // Simpan nilai awal jumlah Rp dan jumlah paket
+        jumlahRpValues[donasiCount] = '';
+        jumlahPaketValues[donasiCount] = '';
 
         donasiCount++;
-    }
+        }
 
     function tampilkanInput(donasiCount) {
         const donasiUang = document.getElementById(`donasi_uang_${donasiCount}`);
@@ -250,50 +221,53 @@ session_start();
     }
 
     function simpanDonasi() {
-    const caraPembayaran = document.getElementById('cara_pembayaran').value;
-    const buktiPembayaran = document.getElementById('bukti_pembayaran').files[0]; // Get the file object
+    const donasiCountInput = document.getElementById('donasiCount');
+    const donasiCount = donasiCountInput.value;
 
+    // Ambil data lain dari formulir
+    const caraPembayaran = document.getElementById('cara_pembayaran').value;
+    const buktiPembayaran = document.getElementById('bukti_pembayaran').files[0];
     const keterangan = document.querySelector('textarea[name="keterangan"]').value;
 
-    const dataDonasi = {
-        caraPembayaran,
-        buktiPembayaran: buktiPembayaran ? buktiPembayaran.name : '', // Check if buktiPembayaran is defined
-        keterangan,
-        donasiDetails: [],
-    };
+    // Buat objek FormData
+    const formData = new FormData();
+    formData.append('donasiCount', donasiCount);
+    formData.append('cara_pembayaran', caraPembayaran);
+    formData.append('bukti_pembayaran', buktiPembayaran);
+    formData.append('keterangan', keterangan);
 
-    for (let i = 1; i <= donasiCount; i++) {
-        const bentukDonasi = document.querySelector(`input[name="bentuk_donasi_${i}"]:checked`).value;
-        const perincianDonasi = document.getElementById(`perincian_donasi_${i}`).value;
-        const jumlahRp = document.getElementById(`jumlah_rp_${i}`).value;
-        const jumlahPaket = document.getElementById(`jumlah_paket_${i}`).value;
+    for (let i = 0; i < donasiCount; i++) {
+        const perincianDonasi = document.getElementById(`perincian_donasi_${i + 1}`).value;
+        const bentukDonasi = document.querySelector(`input[name="bentuk_donasi_${i + 1}"]:checked`).value;
+        const jumlahRp = document.getElementById(`jumlah_rp_${i + 1}`).value;
+        const jumlahPaket = document.getElementById(`jumlah_paket_${i + 1}`).value;
 
-        dataDonasi.donasiDetails.push({
-            bentukDonasi,
-            perincianDonasi,
-            jumlahRp: bentukDonasi === 'uang' ? jumlahRp : '',
-            jumlahPaket: bentukDonasi === 'barang' ? jumlahPaket : '',
-        });
+        // Append data perincian donasi ke FormData
+        formData.append(`perincian_donasi_${i + 1}`, perincianDonasi);
+        formData.append(`bentuk_donasi_${i + 1}`, bentukDonasi);
+        formData.append(`jumlah_rp_${i + 1}`, jumlahRp);
+        formData.append(`jumlah_paket_${i + 1}`, jumlahPaket);
     }
 
-    console.log(dataDonasi); // Tampilkan data donasi di console (gantilah dengan pengiriman ke backend).
+    // Buat objek XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'form_process.php', true);
 
-    alert('Donasi berhasil disimpan!');
-    donasiCount = 0;
-    document.getElementById('donasiDetails').innerHTML = '';
-    document.getElementById('totalRp').value = 0;
-    document.getElementById('totalPaket').value = 0;
+    // Atur fungsi untuk menanggapi ketika permintaan selesai
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log(xhr.responseText);
+            // Response dari form_process.php akan berupa redirect ke halaman kwitansi.php
+            // Anda bisa menangani redirect di sini jika diperlukan
+        } else {
+            console.error('Error saving donation:', xhr.statusText);
+        }
+    };
+
+    // Kirim data menggunakan XMLHttpRequest
+    xhr.send(formData);
 }
 
-    document.querySelector('select[name="cara_pembayaran"]').addEventListener('change', function () {
-        const buktiPembayaranDetails = document.getElementById('buktiPembayaranDetails');
-
-        if (this.value === 'transfer') {
-            buktiPembayaranDetails.style.display = 'block';
-        } else {
-            buktiPembayaranDetails.style.display = 'none';
-        }
-    });
 </script>
 
 </body>
