@@ -31,7 +31,7 @@ session_start();
         </div>
         <div class="sidebar-buttons">
             <button id="share-btn">Share</button>
-                <button id="about-btn">About</button>
+            <button id="about-btn">About</button>
         </div>
     </div>
 
@@ -64,7 +64,7 @@ session_start();
 
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
-            <?php
+                <?php
             while ($row_donatur = $result_donatur->fetch_assoc()) {
                 echo "<option value='" . $row_donatur['id_donatur'] . "'>" . $row_donatur['nama_id_donatur'] . "</option>";
             }
@@ -73,7 +73,7 @@ session_start();
 
             <label for="gerai">Gerai:</label>
             <select name="gerai" id="gerai">
-            <?php
+                <?php
             while ($row_gerai = $result_gerai->fetch_assoc()) {
                 echo "<option value='" . $row_gerai['nama_gerai'] . "'>" . $row_gerai['nama_gerai'] . "</option>";
             }
@@ -82,7 +82,7 @@ session_start();
 
             <label for="petugas_gerai">Petugas Gerai:</label>
             <select name="petugas_gerai" id="petugas_gerai">
-            <?php
+                <?php
             while ($row_petugas = $result_petugas->fetch_assoc()) {
                 echo "<option value='" . $row_petugas['nama_petugas_gerai'] . "'>" . $row_petugas['nama_petugas_gerai'] . "</option>";
             }
@@ -132,9 +132,10 @@ session_start();
             <label for="keterangan">Keterangan:</label>
             <textarea name="keterangan" placeholder="Keterangan"></textarea>
 
-            <button onclick="simpanDonasi()">Simpan Donasi</button>
+            <input type="hidden" id="donasiCount" name="donasiCount" value="0">
+
+            <button type="button" onclick="validateAndSubmitForm()">Simpan Donasi</button>
         </form>
-</body>
 
 <script>
 
@@ -158,7 +159,7 @@ session_start();
         const donasiDetails = document.getElementById('donasiDetails');
         const donasiCountInput = document.getElementById('donasiCount');
 
-        donasiDetails.innerHTML +=  `
+        donasiDetails.innerHTML += `
             <h2>Donasi ${donasiCount + 1}</h2>
             <label for="perincian_donasi_${donasiCount + 1}">Perincian Donasi:</label>
             <select name="perincian_donasi_${donasiCount + 1}" id="perincian_donasi_${donasiCount + 1}">
@@ -195,14 +196,11 @@ session_start();
             <input type="text" name="jumlah_paket_${donasiCount}" id="jumlah_paket_${donasiCount}" placeholder="Masukkan Jumlah Paket jika memilih bentuk donasi Barang" required>
         </div>
     `;
-    
-        donasiCountInput.value = donasiCount;
 
-        // Simpan nilai awal jumlah Rp dan jumlah paket
-        jumlahRpValues[donasiCount] = '';
-        jumlahPaketValues[donasiCount] = '';
+            jumlahRpValues[donasiCount] = '';
+            jumlahPaketValues[donasiCount] = '';
 
-        donasiCount++;
+            donasiCount++;
         }
 
     function tampilkanInput(donasiCount) {
@@ -220,56 +218,74 @@ session_start();
         }
     }
 
+
     function simpanDonasi() {
-    const donasiCountInput = document.getElementById('donasiCount');
-    const donasiCount = donasiCountInput.value;
+        try {
+            const donasiCountInput = document.getElementById('donasiCount');
+            const donasiCount = donasiCountInput.value;
 
-    // Ambil data lain dari formulir
-    const caraPembayaran = document.getElementById('cara_pembayaran').value;
-    const buktiPembayaran = document.getElementById('bukti_pembayaran').files[0];
-    const keterangan = document.querySelector('textarea[name="keterangan"]').value;
+            // Ambil data lain dari formulir
+            const caraPembayaran = document.getElementById('cara_pembayaran').value;
+            const buktiPembayaran = document.getElementById('bukti_pembayaran').files[0];
+            const keterangan = document.querySelector('textarea[name="keterangan"]').value;
 
-    // Buat objek FormData
-    const formData = new FormData();
-    formData.append('donasiCount', donasiCount);
-    formData.append('cara_pembayaran', caraPembayaran);
-    formData.append('bukti_pembayaran', buktiPembayaran);
-    formData.append('keterangan', keterangan);
+            // Buat objek FormData
+            const formData = new FormData();
+            formData.append('donasiCount', donasiCount);
+            formData.append('cara_pembayaran', caraPembayaran);
+            formData.append('bukti_pembayaran', buktiPembayaran);
+            formData.append('keterangan', keterangan);
 
-    for (let i = 0; i < donasiCount; i++) {
-        const perincianDonasi = document.getElementById(`perincian_donasi_${i + 1}`).value;
-        const bentukDonasi = document.querySelector(`input[name="bentuk_donasi_${i + 1}"]:checked`).value;
-        const jumlahRp = document.getElementById(`jumlah_rp_${i + 1}`).value;
-        const jumlahPaket = document.getElementById(`jumlah_paket_${i + 1}`).value;
+            for (let i = 0; i < donasiCount; i++) {
+                const perincianDonasi = validateInput(document.getElementById(`perincian_donasi_${i + 1}`).value);
+                const bentukDonasi = validateInput(document.querySelector(`input[name="bentuk_donasi_${i + 1}"]:checked`).value);
+                const jumlahRp = validateInput(document.getElementById(`jumlah_rp_${i + 1}`).value);
+                const jumlahPaket = validateInput(document.getElementById(`jumlah_paket_${i + 1}`).value);
 
-        // Append data perincian donasi ke FormData
-        formData.append(`perincian_donasi_${i + 1}`, perincianDonasi);
-        formData.append(`bentuk_donasi_${i + 1}`, bentukDonasi);
-        formData.append(`jumlah_rp_${i + 1}`, jumlahRp);
-        formData.append(`jumlah_paket_${i + 1}`, jumlahPaket);
+                // Append data perincian donasi ke FormData
+                formData.append(`perincian_donasi_${i + 1}`, perincianDonasi);
+                formData.append(`bentuk_donasi_${i + 1}`, bentukDonasi);
+                formData.append(`jumlah_rp_${i + 1}`, jumlahRp);
+                formData.append(`jumlah_paket_${i + 1}`, jumlahPaket);
+            }
+
+            // Buat objek XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'form_process.php', true);
+
+            // Atur fungsi untuk menanggapi ketika permintaan selesai
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log(xhr.responseText);
+
+                    // Response dari form_process.php akan berupa redirect ke halaman kwitansi.php
+                    // Anda bisa menangani redirect di sini jika diperlukan
+                    window.location.href = 'kwitansi.php';
+                } else {
+                    console.error('Error saving donation:', xhr.statusText);
+
+                    // Tampilkan pesan kesalahan kepada pengguna
+                    alert('Terjadi kesalahan saat menyimpan donasi. Silakan coba lagi.');
+                }
+            };
+
+            // Kirim data menggunakan XMLHttpRequest
+            xhr.send(formData);
+
+        } catch (error) {
+        console.error('Terjadi kesalahan:', error.message);
+        alert('Terjadi kesalahan. Silakan coba lagi.');
+        }   
     }
 
-    // Buat objek XMLHttpRequest
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'form_process.php', true);
-
-    // Atur fungsi untuk menanggapi ketika permintaan selesai
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            console.log(xhr.responseText);
-            // Response dari form_process.php akan berupa redirect ke halaman kwitansi.php
-            // Anda bisa menangani redirect di sini jika diperlukan
+    function validateAndSubmitForm() {
+        if (validateData()) {
+            simpanDonasi();
         } else {
-            console.error('Error saving donation:', xhr.statusText);
+            alert('Harap isi semua data dengan benar.');
         }
-    };
-
-    // Kirim data menggunakan XMLHttpRequest
-    xhr.send(formData);
-}
-
+    }
 </script>
-
 </body>
 
 </html>

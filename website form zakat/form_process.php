@@ -1,96 +1,54 @@
 <?php
-session_start();
+include 'db_connection.php'; // Sesuaikan dengan lokasi file db_connection.php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_donatur = $_POST["id_donatur"];
-    $nama_donatur = $_POST["nama_donatur"];
-    $alamat_donatur = $_POST["alamat"];
-    $telepon_donatur = $_POST["nomor_hp"];
+// Mendapatkan data dari formulir
+$id_donatur = $_POST['id_donatur'];
+$id_gerai = $_POST['gerai'];
+$id_petugas_gerai = $_POST['petugas_gerai'];
+$nama_donatur = $_POST['nama_donatur'];
+$alamat = $_POST['alamat'];
+$nomor_hp = $_POST['nomor_hp'];
+$cara_pembayaran = $_POST['cara_pembayaran'];
+$bukti_pembayaran = $_FILES['bukti_pembayaran']['name'];
+$keterangan = $_POST['keterangan'];
+$total_rp = $_POST['totalRp'];
+$total_paket = $_POST['totalPaket'];
+$donasiCount = $_POST['donasiCount'];
 
-    $donasiCount = count($_POST["perincian_donasi"]);
+// Menyimpan data donasi ke dalam tabel donasi_data
+$query_donasi = "INSERT INTO donasi_data (id_donatur, id_gerai, id_petugas_gerai, nama_donatur, alamat, nomor_hp, cara_pembayaran, bukti_pembayaran, keterangan, total_rp, total_paket) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$stmt_donasi = $conn->prepare($query_donasi);
+$stmt_donasi->bind_param("iiissssssis", $id_donatur, $id_gerai, $id_petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $cara_pembayaran, $bukti_pembayaran, $keterangan, $total_rp, $total_paket);
+$stmt_donasi->execute();
 
-    $donasiDetails = [];
-    $totalRp = 0;
-    $totalPaket = 0;
+// Mendapatkan ID donasi yang baru saja dibuat
+$id_donasi = $stmt_donasi->insert_id;
 
-    // Koneksi ke database
-    $host = "localhost";
-    $dbname = "zakatramadhan";
-    $username = "root";
-    $password = "";
+// Menyimpan data perincian donasi ke dalam tabel perincian_donasi
+for ($i = 1; $i <= $donasiCount; $i++) {
+    $perincian_donasi = $_POST["perincian_donasi_$i"];
+    $bentuk_donasi = $_POST["bentuk_donasi_$i"];
+    $jumlah_rp = $_POST["jumlah_rp_$i"];
+    $jumlah_paket = $_POST["jumlah_paket_$i"];
 
-    try {
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // Memulai transaksi
-        $pdo->beginTransaction();
-
-        // Menyimpan data donasi ke tabel donasi
-        $queryDonasi = $pdo->prepare("INSERT INTO donasi (id_donatur, nama_donatur, alamat_donatur, telepon_donatur) 
-                                      VALUES (:id_donatur, :nama_donatur, :alamat_donatur, :telepon_donatur)");
-        $queryDonasi->bindParam(":id_donatur", $id_donatur);
-        $queryDonasi->bindParam(":nama_donatur", $nama_donatur);
-        $queryDonasi->bindParam(":alamat_donatur", $alamat_donatur);
-        $queryDonasi->bindParam(":telepon_donatur", $telepon_donatur);
-        $queryDonasi->execute();
-
-        // Mendapatkan ID donasi yang baru saja disimpan
-        $id_donasi = $pdo->lastInsertId();
-
-        // Menyimpan data rincian donasi ke tabel rincian_donasi
-        $queryRincianDonasi = $pdo->prepare("INSERT INTO rincian_donasi (id_donasi, bentuk_donasi, perincian_donasi, jumlah_rp, jumlah_paket) 
-                                            VALUES (:id_donasi, :bentuk_donasi, :perincian_donasi, :jumlah_rp, :jumlah_paket)");
-
-        for ($i = 1; $i <= $donasiCount; $i++) {
-            $bentukDonasi = $_POST["bentuk_donasi_" . $i];
-            $perincianDonasi = $_POST["perincian_donasi_" . $i];
-            $jumlahRp = ($bentukDonasi === "uang") ? $_POST["jumlah_rp_" . $i] : 0;
-            $jumlahPaket = ($bentukDonasi === "barang") ? $_POST["jumlah_paket_" . $i] : 0;
-
-            // Bind parameters
-            $queryRincianDonasi->bindParam(":id_donasi", $id_donasi);
-            $queryRincianDonasi->bindParam(":bentuk_donasi", $bentukDonasi);
-            $queryRincianDonasi->bindParam(":perincian_donasi", $perincianDonasi);
-            $queryRincianDonasi->bindParam(":jumlah_rp", $jumlahRp);
-            $queryRincianDonasi->bindParam(":jumlah_paket", $jumlahPaket);
-
-            // Execute query
-            $queryRincianDonasi->execute();
-
-            $totalRp += $jumlahRp;
-            $totalPaket += $jumlahPaket;
-        }
-
-        // Commit transaksi
-        $pdo->commit();
-
-        // Set session untuk ID donasi
-        $_SESSION["id_donasi"] = $id_donasi;
-
-        // Check if bukti pembayaran is uploaded
-        if (isset($_FILES['bukti_pembayaran']) && $_FILES['bukti_pembayaran']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'path/to/upload/directory/';
-            $uploadFile = $uploadDir . basename($_FILES['bukti_pembayaran']['name']);
-
-            // Move uploaded file to desired directory
-            move_uploaded_file($_FILES['bukti_pembayaran']['tmp_name'], $uploadFile);
-        }
-
-        // Redirect ke halaman kwitansi.php dengan membawa ID donasi
-        header("Location: kwitansi.php?id_donasi=$id_donasi");
-        exit();
-
-    } catch (PDOException $e) {
-        // Rollback transaksi jika terjadi kesalahan
-        $pdo->rollBack();
-        echo "Error: " . $e->getMessage();
-    } finally {
-        $pdo = null;
-    }
-} else {
-    // Redirect ke halaman form_donasi.php jika tidak ada data POST
-    header("Location: form_donasi.php");
-    exit();
+    $query_perincian = "INSERT INTO perincian_donasi (id_donasi, perincian_donasi_$i, bentuk_donasi_$i, jumlah_rp_$i, jumlah_paket_$i) VALUES (?, ?, ?, ?, ?)";
+    $stmt_perincian = $conn->prepare($query_perincian);
+    $stmt_perincian->bind_param("isssi", $id_donasi, $perincian_donasi, $bentuk_donasi, $jumlah_rp, $jumlah_paket);
+    $stmt_perincian->execute();
 }
+
+// Menyimpan bukti pembayaran jika ada
+if (!empty($bukti_pembayaran)) {
+    $upload_dir = "uploads/"; // Sesuaikan dengan direktori tempat menyimpan berkas
+    $target_file = $upload_dir . basename($_FILES["bukti_pembayaran"]["name"]);
+    move_uploaded_file($_FILES["bukti_pembayaran"]["tmp_name"], $target_file);
+}
+
+// Tutup koneksi ke database
+$stmt_donasi->close();
+$conn->close();
+
+// Mengarahkan ke halaman kwitansi.php
+header("Location: kwitansi.php");
+exit();
 ?>
