@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2024 at 02:14 PM
+-- Generation Time: Feb 05, 2024 at 03:11 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -35,10 +35,10 @@ CREATE TABLE IF NOT EXISTS `donasi_data` (
   `alamat` varchar(255) NOT NULL,
   `nomor_hp` varchar(20) NOT NULL,
   `cara_pembayaran` varchar(20) NOT NULL,
-  `bukti_pembayaran` varchar(255) DEFAULT NULL,
   `keterangan` text,
   `total_rp` int(11) DEFAULT NULL,
-  `total_paket` int(11) DEFAULT NULL
+  `total_paket` int(11) DEFAULT NULL,
+  `bukti_pembayaran` blob
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------

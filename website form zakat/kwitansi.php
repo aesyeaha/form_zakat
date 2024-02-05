@@ -1,15 +1,34 @@
 <?php
-session_start();
+include 'db_connection.php';
 
-// Ambil ID donasi dari query string
+// Mendapatkan ID donasi dari URL
 $id_donasi = isset($_GET['id_donasi']) ? $_GET['id_donasi'] : null;
 
 if (!$id_donasi) {
-    // Redirect jika ID donasi tidak valid
-    header("Location: form_donasi.php");
+    echo "Invalid request.";
     exit();
 }
 
+// Query untuk mendapatkan data donasi berdasarkan ID
+$query_donasi = "SELECT * FROM donasi_data WHERE id_donasi = ?";
+$stmt_donasi = $conn->prepare($query_donasi);
+$stmt_donasi->bind_param("i", $id_donasi);
+$stmt_donasi->execute();
+$result_donasi = $stmt_donasi->get_result();
+
+if ($result_donasi->num_rows === 0) {
+    echo "Donation not found.";
+    exit();
+}
+
+$row_donasi = $result_donasi->fetch_assoc();
+
+// Query untuk mendapatkan data perincian donasi berdasarkan ID donasi
+$query_perincian = "SELECT * FROM perincian_donasi WHERE id_donasi = ?";
+$stmt_perincian = $conn->prepare($query_perincian);
+$stmt_perincian->bind_param("i", $id_donasi);
+$stmt_perincian->execute();
+$result_perincian = $stmt_perincian->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -31,27 +50,43 @@ if (!$id_donasi) {
     </nav>
 
     <div class="container">
-        <h1>Data Donasi Zakat</h1>
+        <h1>Kwitansi Donasi</h1>
+        <div>
+            <h2>Informasi Donatur</h2>
+            <p>ID Donatur: <?php echo $row_donasi['id_donatur']; ?></p>
+            <p>Nama Donatur: <?php echo $row_donasi['nama_donatur']; ?></p>
+            <p>Alamat: <?php echo $row_donasi['alamat']; ?></p>
+            <p>Nomor Handphone: <?php echo $row_donasi['nomor_hp']; ?></p>
+        </div>
 
-        <?php if ($formData && is_array($formData)): ?>
-            <p><strong>Gerai:</strong> <?php echo htmlspecialchars($formData['gerai']); ?></p>
-            <p><strong>Petugas Gerai:</strong> <?php echo htmlspecialchars($formData['petugas_gerai']); ?></p>
-            <p><strong>Nama Donatur:</strong> <?php echo htmlspecialchars($formData['nama_donatur']); ?></p>
-            <p><strong>Alamat:</strong> <?php echo htmlspecialchars($formData['alamat']); ?></p>
-            <p><strong>Nomor Handphone:</strong> <?php echo htmlspecialchars($formData['nomor_hp']); ?></p>
-            <p><strong>Perincian Donasi:</strong> <?php echo htmlspecialchars($formData['perincian_donasi']); ?></p>
-            <p><strong>Bentuk Donasi:</strong> <?php echo htmlspecialchars($formData['bentuk_donasi']); ?></p>
-            <p><strong>Keterangan:</strong> <?php echo htmlspecialchars($formData['keterangan']); ?></p>
+        <div>
+            <h2>Informasi Donasi</h2>
+            <p>Gerai: <?php echo $row_donasi['id_gerai']; ?></p>
+            <p>Petugas Gerai: <?php echo $row_donasi['id_petugas_gerai']; ?></p>
+            <p>Cara Pembayaran: <?php echo $row_donasi['cara_pembayaran']; ?></p>
+            <p>Total Jumlah (Rp): <?php echo $row_donasi['total_rp']; ?></p>
+            <p>Total Jumlah Paket: <?php echo $row_donasi['total_paket']; ?></p>
+            <p>Keterangan: <?php echo $row_donasi['keterangan']; ?></p>
+        </div>
 
-            <form action="print_pdf.php" method="post">
-                <?php foreach ($formData as $key => $value): ?>
-                    <input type="hidden" name="<?php echo htmlspecialchars($key); ?>" value="<?php echo htmlspecialchars($value); ?>">
-                <?php endforeach; ?>
-                <button type="submit" name="print">Print Kwitansi</button>
-            </form>
-        <?php else: ?>
-            <p>Tidak ada data formulir yang tersedia atau format data tidak valid.</p>
-        <?php endif; ?>
+        <div>
+            <h2>Perincian Donasi</h2>
+            <?php
+            for ($i = 1; $i <= 6; $i++) {
+                $row_perincian = $result_perincian->fetch_assoc();
+                if (!$row_perincian) {
+                    echo "<p>Donasi $i: Kosong</p>";
+                } else {
+                    echo "<p>Donasi $i</p>";
+                    echo "<p>Perincian Donasi: " . $row_perincian['perincian_donasi'] . "</p>";
+                    echo "<p>Bentuk Donasi: " . $row_perincian['bentuk_donasi'] . "</p>";
+                    echo "<p>Jumlah (Rp): " . $row_perincian['jumlah_rp'] . "</p>";
+                    echo "<p>Jumlah Paket: " . $row_perincian['jumlah_paket'] . "</p>";
+                    echo "<hr>";
+                }
+            }
+            ?>
+        </div>
     </div>
 
     <div class="sidebar">
@@ -83,3 +118,13 @@ if (!$id_donasi) {
 
 </body>
 </html>
+
+<?php
+// Tutup koneksi ke database
+$stmt_donasi->close();
+$stmt_perincian->close();
+
+$conn->close();
+header("Location: index.php");
+exit();
+?>

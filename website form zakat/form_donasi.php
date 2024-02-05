@@ -134,7 +134,7 @@ session_start();
 
             <input type="hidden" id="donasiCount" name="donasiCount" value="0">
 
-            <button type="button" onclick="validateAndSubmitForm()">Simpan Donasi</button>
+            <button type="button" onclick="simpanDonasi()">Simpan Donasi</button>
         </form>
 
 <script>
@@ -203,7 +203,7 @@ session_start();
             donasiCount++;
         }
 
-    function tampilkanInput(donasiCount) {
+        function tampilkanInput(donasiCount) {
         const donasiUang = document.getElementById(`donasi_uang_${donasiCount}`);
         const donasiBarang = document.getElementById(`donasi_barang_${donasiCount}`);
         const jumlahRpInput = document.getElementById(`jumlahRpInput_${donasiCount}`);
@@ -218,6 +218,8 @@ session_start();
         }
     }
 
+    // Pemanggilan fungsi tambahDonasi() di akhir file
+    tambahDonasi();
 
     function simpanDonasi() {
         try {
