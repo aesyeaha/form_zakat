@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +16,7 @@ session_start();
 </head>
 
 <body>
+
     <nav class="navbar navbar-dark bg-primary">
         <div id="toggle-btn">&#9776;</div>
         <img src="./image/logo.png" alt="Beranda" id="brand-logo">
@@ -60,7 +64,14 @@ session_start();
             $stmt_petugas = $conn->prepare($query_petugas);
             $stmt_petugas->execute();
             $result_petugas = $stmt_petugas->get_result();
+
+            $id_donasi = 0;
+            if (isset($_POST['id_donasi'])) {
+                $id_donasi = intval($_POST['id_donasi']);
+            }
             ?>
+            
+            <input type="hidden" name="id_donasi" value="<?php echo $id_donasi; ?>">
 
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
@@ -98,7 +109,7 @@ session_start();
             <label for="nomor_hp">Nomor Handphone:</label>
             <input type="text" name="nomor_hp" placeholder="Nomor Handphone" required>
 
-            <button type="button" onclick="tambahDonasi()">Masukkan/Tambahkan Kriteria Donasi</button>
+            <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
 
             <div id="donasiDetails">
                 <!-- Detail donasi akan ditampilkan di sini -->
@@ -116,11 +127,11 @@ session_start();
             </div>
 
             <div>
-                <label for="cara_pembayaran">Cara Pembayaran (Jika Donasi Dalam Bentuk Uang):</label>
-                <select name="cara_pembayaran" id="cara_pembayaran">
+                <label for="cara_pembayaran">Cara Pembayaran:</label>
+                <select name="cara_pembayaran" id="cara_pembayaran" onchange="tampilkanInputBukti()">
+                    <option value="barang">Semua Barang</option>
                     <option value="tunai">Tunai</option>
                     <option value="transfer">Transfer</option>
-                    <option value="tunai">Barang</option>
                 </select>
             </div>
 
@@ -137,29 +148,29 @@ session_start();
             <button type="button" onclick="simpanDonasi()">Simpan Donasi</button>
         </form>
 
-<script>
+        <script>
 
-    const toggleBtn = document.getElementById('toggle-btn');
-    const closeBtn = document.getElementById('close-btn');
-    const sidebar = document.querySelector('.sidebar');
+            const toggleBtn = document.getElementById('toggle-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const sidebar = document.querySelector('.sidebar');
 
-    toggleBtn.addEventListener('click', () => {
-        sidebar.style.left = '0px';
-    });
+            toggleBtn.addEventListener('click', () => {
+                sidebar.style.left = '0px';
+            });
 
-    closeBtn.addEventListener('click', () => {
-        sidebar.style.left = '-250px';
-    });
+            closeBtn.addEventListener('click', () => {
+                sidebar.style.left = '-250px';
+            });
 
-    let donasiCount = 0;
-    let jumlahRpValues = [];
-    let jumlahPaketValues = [];
+            let donasiCount = 0;
+            let jumlahRpValues = [];
+            let jumlahPaketValues = [];
 
-    function tambahDonasi() {
-        const donasiDetails = document.getElementById('donasiDetails');
-        const donasiCountInput = document.getElementById('donasiCount');
+            function tambahDonasi() {
+                const donasiDetails = document.getElementById('donasiDetails');
+                const donasiCountInput = document.getElementById('donasiCount');
 
-        donasiDetails.innerHTML += `
+                donasiDetails.innerHTML += `
             <h2>Donasi ${donasiCount + 1}</h2>
             <label for="perincian_donasi_${donasiCount + 1}">Perincian Donasi:</label>
             <select name="perincian_donasi_${donasiCount + 1}" id="perincian_donasi_${donasiCount + 1}">
@@ -197,97 +208,109 @@ session_start();
         </div>
     `;
 
-            jumlahRpValues[donasiCount] = '';
-            jumlahPaketValues[donasiCount] = '';
+                jumlahRpValues[donasiCount] = '';
+                jumlahPaketValues[donasiCount] = '';
 
-            donasiCount++;
-        }
-
-        function tampilkanInput(donasiCount) {
-        const donasiUang = document.getElementById(`donasi_uang_${donasiCount}`);
-        const donasiBarang = document.getElementById(`donasi_barang_${donasiCount}`);
-        const jumlahRpInput = document.getElementById(`jumlahRpInput_${donasiCount}`);
-        const jumlahPaketInput = document.getElementById(`jumlahPaketInput_${donasiCount}`);
-
-        if (donasiUang.checked) {
-            jumlahRpInput.style.display = 'block';
-            jumlahPaketInput.style.display = 'none';
-        } else if (donasiBarang.checked) {
-            jumlahRpInput.style.display = 'none';
-            jumlahPaketInput.style.display = 'block';
-        }
-    }
-
-    // Pemanggilan fungsi tambahDonasi() di akhir file
-    tambahDonasi();
-
-    function simpanDonasi() {
-        try {
-            const donasiCountInput = document.getElementById('donasiCount');
-            const donasiCount = donasiCountInput.value;
-
-            // Ambil data lain dari formulir
-            const caraPembayaran = document.getElementById('cara_pembayaran').value;
-            const buktiPembayaran = document.getElementById('bukti_pembayaran').files[0];
-            const keterangan = document.querySelector('textarea[name="keterangan"]').value;
-
-            // Buat objek FormData
-            const formData = new FormData();
-            formData.append('donasiCount', donasiCount);
-            formData.append('cara_pembayaran', caraPembayaran);
-            formData.append('bukti_pembayaran', buktiPembayaran);
-            formData.append('keterangan', keterangan);
-
-            for (let i = 0; i < donasiCount; i++) {
-                const perincianDonasi = validateInput(document.getElementById(`perincian_donasi_${i + 1}`).value);
-                const bentukDonasi = validateInput(document.querySelector(`input[name="bentuk_donasi_${i + 1}"]:checked`).value);
-                const jumlahRp = validateInput(document.getElementById(`jumlah_rp_${i + 1}`).value);
-                const jumlahPaket = validateInput(document.getElementById(`jumlah_paket_${i + 1}`).value);
-
-                // Append data perincian donasi ke FormData
-                formData.append(`perincian_donasi_${i + 1}`, perincianDonasi);
-                formData.append(`bentuk_donasi_${i + 1}`, bentukDonasi);
-                formData.append(`jumlah_rp_${i + 1}`, jumlahRp);
-                formData.append(`jumlah_paket_${i + 1}`, jumlahPaket);
+                donasiCount++;
             }
 
-            // Buat objek XMLHttpRequest
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'form_process.php', true);
+            function tampilkanInput(donasiCount) {
+                const donasiUang = document.getElementById(`donasi_uang_${donasiCount}`);
+                const donasiBarang = document.getElementById(`donasi_barang_${donasiCount}`);
+                const jumlahRpInput = document.getElementById(`jumlahRpInput_${donasiCount}`);
+                const jumlahPaketInput = document.getElementById(`jumlahPaketInput_${donasiCount}`);
 
-            // Atur fungsi untuk menanggapi ketika permintaan selesai
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    console.log(xhr.responseText);
-
-                    // Response dari form_process.php akan berupa redirect ke halaman kwitansi.php
-                    // Anda bisa menangani redirect di sini jika diperlukan
-                    window.location.href = 'kwitansi.php';
-                } else {
-                    console.error('Error saving donation:', xhr.statusText);
-
-                    // Tampilkan pesan kesalahan kepada pengguna
-                    alert('Terjadi kesalahan saat menyimpan donasi. Silakan coba lagi.');
+                if (donasiUang.checked) {
+                    jumlahRpInput.style.display = 'block';
+                    jumlahPaketInput.style.display = 'none';
+                } else if (donasiBarang.checked) {
+                    jumlahRpInput.style.display = 'none';
+                    jumlahPaketInput.style.display = 'block';
                 }
-            };
+            }
 
-            // Kirim data menggunakan XMLHttpRequest
-            xhr.send(formData);
+            function tampilkanInputBukti() {
+                const caraPembayaran = document.getElementById('cara_pembayaran').value;
+                const buktiPembayaranDetails = document.getElementById('buktiPembayaranDetails');
 
-        } catch (error) {
-        console.error('Terjadi kesalahan:', error.message);
-        alert('Terjadi kesalahan. Silakan coba lagi.');
-        }   
-    }
+                if (caraPembayaran === 'transfer') {
+                    buktiPembayaranDetails.style.display = 'block';
+                } else {
+                    buktiPembayaranDetails.style.display = 'none';
+                }
+            }
 
-    function validateAndSubmitForm() {
-        if (validateData()) {
-            simpanDonasi();
-        } else {
-            alert('Harap isi semua data dengan benar.');
-        }
-    }
-</script>
+            // Pemanggilan fungsi tambahDonasi() di akhir file
+            tambahDonasi();
+
+            function simpanDonasi() {
+                try {
+                    const donasiCountInput = document.getElementById('donasiCount');
+                    const donasiCount = donasiCountInput.value;
+
+                    // Ambil data lain dari formulir
+                    const caraPembayaran = document.getElementById('cara_pembayaran').value;
+                    const buktiPembayaran = document.getElementById('bukti_pembayaran').files[0];
+                    const keterangan = document.querySelector('textarea[name="keterangan"]').value;
+
+                    // Buat objek FormData
+                    const formData = new FormData();
+                    formData.append('donasiCount', donasiCount);
+                    formData.append('cara_pembayaran', caraPembayaran);
+                    formData.append('bukti_pembayaran', buktiPembayaran);
+                    formData.append('keterangan', keterangan);
+
+                    for (let i = 0; i < donasiCount; i++) {
+                        const perincianDonasi = validateInput(document.getElementById(`perincian_donasi_${i + 1}`).value);
+                        const bentukDonasi = validateInput(document.querySelector(`input[name="bentuk_donasi_${i + 1}"]:checked`).value);
+                        const jumlahRp = validateInput(document.getElementById(`jumlah_rp_${i + 1}`).value);
+                        const jumlahPaket = validateInput(document.getElementById(`jumlah_paket_${i + 1}`).value);
+
+                        // Append data perincian donasi ke FormData
+                        formData.append(`perincian_donasi[]`, perincianDonasi);
+                        formData.append(`bentuk_donasi[]`, bentukDonasi);
+                        formData.append(`jumlah_rp[]`, jumlahRp);
+                        formData.append(`jumlah_paket[]`, jumlahPaket);
+                    }
+
+                    // Buat objek XMLHttpRequest
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'form_process.php', true);
+
+                    // Atur fungsi untuk menanggapi ketika permintaan selesai
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            console.log(xhr.responseText);
+
+                            // Response dari form_process.php akan berupa redirect ke halaman kwitansi.php
+                            // Anda bisa menangani redirect di sini jika diperlukan
+                            window.location.href = 'kwitansi.php';
+                        } else {
+                            console.error('Error saving donation:', xhr.statusText);
+
+                            // Tampilkan pesan kesalahan kepada pengguna
+                            alert('Terjadi kesalahan saat menyimpan donasi. Silakan coba lagi.');
+                        }
+                    };
+
+                    // Kirim data menggunakan XMLHttpRequest
+                    xhr.send(formData);
+
+                } catch (error) {
+                    console.error('Terjadi kesalahan:', error.message);
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                }
+            }
+
+            function validateAndSubmitForm() {
+                if (validateData()) {
+                    simpanDonasi();
+                } else {
+                    alert('Harap isi semua data dengan benar.');
+                }
+            }
+        </script>
+
 </body>
 
 </html>

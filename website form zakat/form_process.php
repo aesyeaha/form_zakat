@@ -1,51 +1,126 @@
 <?php
-include 'db_connection.php';
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Mendapatkan data dari formulir
-$id_donatur = mysqli_real_escape_string($conn, $_POST['id_donatur']);
-$id_gerai = mysqli_real_escape_string($conn, $_POST['gerai']);
-$id_petugas_gerai = mysqli_real_escape_string($conn, $_POST['petugas_gerai']);
-$nama_donatur = htmlspecialchars($_POST['nama_donatur']);
-$alamat = htmlspecialchars($_POST['alamat']);
-$nomor_hp = mysqli_real_escape_string($conn, $_POST['nomor_hp']);
-$cara_pembayaran = mysqli_real_escape_string($conn, $_POST['cara_pembayaran']);
-$bukti_pembayaran = isset($_FILES['bukti_pembayaran']) ? file_get_contents($_FILES['bukti_pembayaran']['tmp_name']) : null;
-$nama_file_gambar = isset($_FILES['bukti_pembayaran']) ? $_FILES['bukti_pembayaran']['name'] : null;
-$keterangan = htmlspecialchars($_POST['keterangan']);
-$total_rp = mysqli_real_escape_string($conn, $_POST['totalRp']);
-$total_paket = mysqli_real_escape_string($conn, $_POST['totalPaket']);
-$donasiCount = mysqli_real_escape_string($conn, $_POST['donasiCount']);
+// Include database connection file
+require_once 'db_connection.php';
 
-// Menyimpan data donasi ke dalam tabel donasi_data
-$query_donasi = "INSERT INTO donasi_data (id_donatur, id_gerai, id_petugas_gerai, nama_donatur, alamat, nomor_hp, cara_pembayaran, bukti_pembayaran, nama_file_gambar, keterangan, total_rp, total_paket) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-$stmt_donasi = $conn->prepare($query_donasi);
-$stmt_donasi->bind_param("iiisssssssis", $id_donatur, $id_gerai, $id_petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $cara_pembayaran, $bukti_pembayaran, $nama_file_gambar, $keterangan, $total_rp, $total_paket);
-$stmt_donasi->execute();
+// Get form data
+$donasiCount = $_POST['donasiCount'];
+$cara_pembayaran = $_POST['cara_pembayaran'];
+$bukti_pembayaran = $_FILES['bukti_pembayaran'];
+$keterangan = $_POST['keterangan'];
 
-// Mendapatkan ID donasi yang baru saja dibuat
-$id_donasi = $stmt_donasi->insert_id;
-
-// Menyimpan data perincian donasi ke dalam tabel perincian_donasi
-for ($i = 1; $i <= $donasiCount; $i++) {
-    $perincian_donasi = isset($_POST["perincian_donasi_$i"]) ? $_POST["perincian_donasi_$i"] : null;
-    $bentuk_donasi = isset($_POST["bentuk_donasi_$i"]) ? $_POST["bentuk_donasi_$i"] : null;
-    $jumlah_rp = isset($_POST["jumlah_rp_$i"]) ? $_POST["jumlah_rp_$i"] : null;
-    $jumlah_paket = isset($_POST["jumlah_paket_$i"]) ? $_POST["jumlah_paket_$i"] : null;
-
-    // Lakukan penyimpanan ke database sesuai dengan struktur tabel perincian_donasi
-    $query_perincian = "INSERT INTO perincian_donasi (id_donasi, perincian_donasi_$i, bentuk_donasi_$i, jumlah_rp_$i, jumlah_paket_$i) VALUES (?, ?, ?, ?, ?)";
-    $stmt_perincian = $conn->prepare($query_perincian);
-    $stmt_perincian->bind_param("isssi", $id_donasi, $perincian_donasi, $bentuk_donasi, $jumlah_rp, $jumlah_paket);
-    $stmt_perincian->execute();
+// Get donasi data
+for ($i = 0; $i < $donasiCount; $i++) {
+    $perincian_donasi[] = $_POST["perincian_donasi"][$i];
+    $bentuk_donasi[] = $_POST["bentuk_donasi"][$i];
+    $jumlah_rp[] = $_POST["jumlah_rp"][$i];
+    $jumlah_paket[] = $_POST["jumlah_paket"][$i];
 }
 
-// Tutup koneksi ke database
-$stmt_donasi->close();
-$conn->close();
+// Validate form data
+if (empty($perincian_donasi) || empty($bentuk_donasi) || empty($jumlah_rp) || empty($jumlah_paket)) {
+    echo "Error: Invalid form data.";
+    exit;
+}
 
-// Dapatkan ID donasi yang baru saja dibuat
-$id_donasi = $stmt_donasi->insert_id;
+// Calculate total Rp and total Paket
+$total_rp = array_sum($jumlah_rp);
+$total_paket = array_sum($jumlah_paket);
 
-// Mengarahkan ke halaman kwitansi.php dengan menyertakan ID donasi
-header("Location: kwitansi.php?id_donasi=$id_donasi");
-exit();
+// Prepare and bind donasi_data table data
+$stmt_donasi_data = $conn->prepare("INSERT INTO donasi_data (id_donatur, id_gerai, id_petugas_gerai, nama_donatur, alamat, nomor_hp, cara_pembayaran, bukti_pembayaran, keterangan, total_rp, total_paket) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt_donasi_data->bind_param("iiissssssiii", $id_donatur, $id_gerai, $id_petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $cara_pembayaran, $bukti_pembayaran, $keterangan, $total_rp, $total_paket);
+
+// Set default values for id_donatur, id_gerai, and id_petugas_gerai
+$id_donatur = $id_gerai = $id_petugas_gerai = 0;
+
+// Get form data for donasi_data
+$id_donatur = $_POST['id_donatur'];
+$id_gerai = $_POST['id_gerai'];
+$nama_donatur = $_POST['nama_donatur'];
+$alamat = $_POST['alamat'];
+$nomor_hp = $_POST['nomor_hp'];
+
+// Prepare and bind perincian_donasi table data
+$stmt_perincian_donasi = $conn->prepare("INSERT INTO perincian_donasi (id_donasi, perincian_donasi, bentuk_donasi, jumlah_rp, jumlah_paket) VALUES (?, ?, ?, ?, ?)");
+
+// Move the uploaded file
+if ($bukti_pembayaran["error"] == UPLOAD_ERR_OK) {
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($bukti_pembayaran["name"]);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Check if the uploaded file is an image
+    $check = getimagesize($bukti_pembayaran["tmp_name"]);
+    if ($check === false) {
+        echo "Error: File is not an image.";
+        exit;
+    }
+
+        // Check if uploads directory exists, if not create it
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+    
+        // Check if $imageFileType is a valid image file type
+        $allowed_types = array("jpg", "jpeg", "png", "gif");
+        if (!in_array($imageFileType, $allowed_types)) {
+            echo "Error: Invalid file type.";
+            exit;
+        }
+    
+        // Check if the file already exists
+        if (file_exists($target_file)) {
+            echo "Error: File already exists.";
+            exit;
+        }
+    
+        // Check file size
+        if ($bukti_pembayaran["size"] > 2000000) {
+            echo "Error: File size is too large.";
+            exit;
+        }
+    
+        // Move the uploaded file
+        if (!move_uploaded_file($bukti_pembayaran["tmp_name"], $target_file)) {
+            echo "Error: Failed to upload file.";
+            exit;
+        }
+    
+        // Insert data into donasi_data table
+        $stmt_donasi_data->execute();
+        $id_donasi = $conn->insert_id;
+    
+        // Insert data into perincian_donasi table
+        for ($i = 0; $i < $donasiCount; $i++) {
+            $perincian_donasi[$i] = $conn->real_escape_string($perincian_donasi[$i]);
+            $bentuk_donasi[$i] = $conn->real_escape_string($bentuk_donasi[$i]);
+    
+            $stmt_perincian_donasi->execute();
+            $id_perincian_donasi = $conn->insert_id;
+            $stmt_perincian_donasi->close();
+    
+            // Associate the perincian_donasi with the donasi_data
+            $stmt_donasi_perincian_association = $conn->prepare("INSERT INTO donasi_perincian_association (id_donasi, id_perincian_donasi) VALUES (?, ?)");
+            $stmt_donasi_perincian_association->bind_param("ii", $id_donasi, $id_perincian_donasi);
+            $stmt_donasi_perincian_association->execute();
+            $stmt_donasi_perincian_association->close();
+        }
+    
+        // Redirect to kwitansi page
+        header("Location: kwitansi.php?id_donasi=$id_donasi");
+        exit;
+    
+    } else {
+        echo "Error: Failed to upload file.";
+        exit;
+    }
+    
+    // Close the database connection
+    $conn->close();
+    
+    ?>

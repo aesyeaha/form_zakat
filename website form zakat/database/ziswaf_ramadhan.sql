@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2024 at 03:11 PM
+-- Generation Time: Feb 07, 2024 at 03:10 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -39,6 +39,18 @@ CREATE TABLE IF NOT EXISTS `donasi_data` (
   `total_rp` int(11) DEFAULT NULL,
   `total_paket` int(11) DEFAULT NULL,
   `bukti_pembayaran` blob
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `donasi_perincian_association`
+--
+
+CREATE TABLE IF NOT EXISTS `donasi_perincian_association` (
+`id` int(11) NOT NULL,
+  `id_donasi` int(11) NOT NULL,
+  `id_perincian_donasi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -141,30 +153,10 @@ INSERT INTO `gerai` (`id_gerai`, `nama_gerai`) VALUES
 CREATE TABLE IF NOT EXISTS `perincian_donasi` (
 `id_perincian_donasi` int(11) NOT NULL,
   `id_donasi` int(11) DEFAULT NULL,
-  `perincian_donasi_1` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_1` varchar(10) DEFAULT NULL,
-  `jumlah_rp_1` int(11) DEFAULT NULL,
-  `jumlah_paket_1` int(11) DEFAULT NULL,
-  `perincian_donasi_2` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_2` varchar(10) DEFAULT NULL,
-  `jumlah_rp_2` int(11) DEFAULT NULL,
-  `jumlah_paket_2` int(11) DEFAULT NULL,
-  `perincian_donasi_3` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_3` varchar(10) DEFAULT NULL,
-  `jumlah_rp_3` int(11) DEFAULT NULL,
-  `jumlah_paket_3` int(11) DEFAULT NULL,
-  `perincian_donasi_4` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_4` varchar(10) DEFAULT NULL,
-  `jumlah_rp_4` int(11) DEFAULT NULL,
-  `jumlah_paket_4` int(11) DEFAULT NULL,
-  `perincian_donasi_5` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_5` varchar(10) DEFAULT NULL,
-  `jumlah_rp_5` int(11) DEFAULT NULL,
-  `jumlah_paket_5` int(11) DEFAULT NULL,
-  `perincian_donasi_6` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_6` varchar(10) DEFAULT NULL,
-  `jumlah_rp_6` int(11) DEFAULT NULL,
-  `jumlah_paket_6` int(11) DEFAULT NULL
+  `perincian_donasi` varchar(50) DEFAULT NULL,
+  `bentuk_donasi` varchar(10) DEFAULT NULL,
+  `jumlah_rp` int(11) DEFAULT NULL,
+  `jumlah_paket` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -258,6 +250,12 @@ ALTER TABLE `donasi_data`
  ADD PRIMARY KEY (`id_donasi`), ADD KEY `id_donatur` (`id_donatur`), ADD KEY `id_gerai` (`id_gerai`), ADD KEY `id_petugas_gerai` (`id_petugas_gerai`);
 
 --
+-- Indexes for table `donasi_perincian_association`
+--
+ALTER TABLE `donasi_perincian_association`
+ ADD PRIMARY KEY (`id`), ADD KEY `id_donasi` (`id_donasi`), ADD KEY `id_perincian_donasi` (`id_perincian_donasi`);
+
+--
 -- Indexes for table `donatur`
 --
 ALTER TABLE `donatur`
@@ -291,6 +289,11 @@ ALTER TABLE `petugas_gerai`
 ALTER TABLE `donasi_data`
 MODIFY `id_donasi` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `donasi_perincian_association`
+--
+ALTER TABLE `donasi_perincian_association`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `donatur`
 --
 ALTER TABLE `donatur`
@@ -321,6 +324,13 @@ ALTER TABLE `donasi_data`
 ADD CONSTRAINT `donasi_data_ibfk_1` FOREIGN KEY (`id_donatur`) REFERENCES `donatur` (`id_donatur`),
 ADD CONSTRAINT `donasi_data_ibfk_2` FOREIGN KEY (`id_gerai`) REFERENCES `gerai` (`id_gerai`),
 ADD CONSTRAINT `donasi_data_ibfk_3` FOREIGN KEY (`id_petugas_gerai`) REFERENCES `petugas_gerai` (`id_petugas_gerai`);
+
+--
+-- Constraints for table `donasi_perincian_association`
+--
+ALTER TABLE `donasi_perincian_association`
+ADD CONSTRAINT `donasi_perincian_association_ibfk_1` FOREIGN KEY (`id_donasi`) REFERENCES `donasi_data` (`id_donasi`),
+ADD CONSTRAINT `donasi_perincian_association_ibfk_2` FOREIGN KEY (`id_perincian_donasi`) REFERENCES `perincian_donasi` (`id_perincian_donasi`);
 
 --
 -- Constraints for table `perincian_donasi`
