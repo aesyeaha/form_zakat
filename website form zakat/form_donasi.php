@@ -32,6 +32,7 @@ error_reporting(E_ALL);
         <div class="sidebar-links">
             <a href="index.php">Beranda</a>
             <a href="form_donasi.php">Form Donasi</a>
+            <a href="dashboard.php">Dashboard</a>
         </div>
         <div class="sidebar-buttons">
             <button id="share-btn">Share</button>
@@ -109,11 +110,11 @@ error_reporting(E_ALL);
             <label for="nomor_hp">Nomor Handphone:</label>
             <input type="text" name="nomor_hp" placeholder="Nomor Handphone" required>
 
-            <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
-
             <div id="donasiDetails">
                 <!-- Detail donasi akan ditampilkan di sini -->
             </div>
+
+            <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
 
             <div id="totalSection">
                 <h2>Total Semua Donasi</h2>

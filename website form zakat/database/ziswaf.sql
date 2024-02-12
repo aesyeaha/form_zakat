@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2024 at 01:18 PM
+-- Generation Time: Feb 11, 2024 at 01:00 PM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -28,169 +28,213 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `donasi_data` (
 `id_donasi` int(11) NOT NULL,
-  `nama_id_donatur` varchar(100) NOT NULL,
-  `gerai` varchar(50) NOT NULL,
-  `petugas_gerai` varchar(100) NOT NULL,
-  `nama_donatur` varchar(100) NOT NULL,
+  `id_donatur` int(11) NOT NULL,
+  `id_gerai` int(11) NOT NULL,
+  `id_petugas_gerai` int(11) NOT NULL,
+  `nama_donatur` varchar(255) NOT NULL,
   `alamat` varchar(255) NOT NULL,
   `nomor_hp` varchar(20) NOT NULL,
-  `perincian_donasi_1` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_1` varchar(10) DEFAULT NULL,
-  `jumlah_rp_1` int(11) DEFAULT NULL,
-  `jumlah_paket_1` int(11) DEFAULT NULL,
-  `perincian_donasi_2` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_2` varchar(10) DEFAULT NULL,
-  `jumlah_rp_2` int(11) DEFAULT NULL,
-  `jumlah_paket_2` int(11) DEFAULT NULL,
-  `perincian_donasi_3` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_3` varchar(10) DEFAULT NULL,
-  `jumlah_rp_3` int(11) DEFAULT NULL,
-  `jumlah_paket_3` int(11) DEFAULT NULL,
-  `perincian_donasi_4` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_4` varchar(10) DEFAULT NULL,
-  `jumlah_rp_4` int(11) DEFAULT NULL,
-  `jumlah_paket_4` int(11) DEFAULT NULL,
-  `perincian_donasi_5` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_5` varchar(10) DEFAULT NULL,
-  `jumlah_rp_5` int(11) DEFAULT NULL,
-  `jumlah_paket_5` int(11) DEFAULT NULL,
-  `perincian_donasi_6` varchar(50) DEFAULT NULL,
-  `bentuk_donasi_6` varchar(10) DEFAULT NULL,
-  `jumlah_rp_6` int(11) DEFAULT NULL,
-  `jumlah_paket_6` int(11) DEFAULT NULL,
   `cara_pembayaran` varchar(20) NOT NULL,
-  `bukti_pembayaran` varchar(255) DEFAULT NULL,
+  `bukti_pembayaran` blob NOT NULL,
   `keterangan` text,
-  `total_rp` int(11) DEFAULT NULL,
-  `total_paket` int(11) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=122 ;
+  `total_rp` int(11) NOT NULL,
+  `total_paket` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `donasi_data`
+-- Table structure for table `donasi_perincian_association`
 --
 
-INSERT INTO `donasi_data` (`id_donasi`, `nama_id_donatur`, `gerai`, `petugas_gerai`, `nama_donatur`, `alamat`, `nomor_hp`, `perincian_donasi_1`, `bentuk_donasi_1`, `jumlah_rp_1`, `jumlah_paket_1`, `perincian_donasi_2`, `bentuk_donasi_2`, `jumlah_rp_2`, `jumlah_paket_2`, `perincian_donasi_3`, `bentuk_donasi_3`, `jumlah_rp_3`, `jumlah_paket_3`, `perincian_donasi_4`, `bentuk_donasi_4`, `jumlah_rp_4`, `jumlah_paket_4`, `perincian_donasi_5`, `bentuk_donasi_5`, `jumlah_rp_5`, `jumlah_paket_5`, `perincian_donasi_6`, `bentuk_donasi_6`, `jumlah_rp_6`, `jumlah_paket_6`, `cara_pembayaran`, `bukti_pembayaran`, `keterangan`, `total_rp`, `total_paket`) VALUES
-(1, 'TPA-PS', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(2, 'PGIT', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(3, 'TK-A1 - A2', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(4, 'TK-A3 - A5', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(5, 'TK-B1 - B2', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(6, 'TK-B3 - B4', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(7, 'SD-1A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(8, 'SD-1B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(9, 'SD-1C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(10, 'SD-1D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(11, 'SD-1|CP', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(12, 'SD-2A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(13, 'SD-2B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(14, 'SD-2C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(15, 'SD-2D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(16, 'SD-3A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(17, 'SD-3B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(18, 'SD-3C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(19, 'SD-3D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(20, 'SD-4A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(21, 'SD-4B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(22, 'SD-4C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(23, 'SD-4D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(24, 'SD-5A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(25, 'SD-5B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(26, 'SD-5C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(27, 'SD-5D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(28, 'SD-6A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(29, 'SD-6B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(30, 'SD-6C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(31, 'SD-6D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(32, 'SMP-7A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(33, 'SMP-7B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(34, 'SMP-7C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(35, 'SMP-7D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(36, 'SMP-8A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(37, 'SMP-8B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(38, 'SMP-8C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(39, 'SMP-8D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(40, 'SMP-9A', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(41, 'SMP-9B', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(42, 'SMP-9C', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(43, 'SMP-9D', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(44, 'MA-10', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(45, 'MA-11', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(46, 'MA-12', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(47, 'P1', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(48, 'P2', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(49, 'P3', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(50, 'P4', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(51, 'P5', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(52, 'Umum', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(53, '', 'PAUD', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(54, '', 'SD', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(55, '', 'SMP', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(56, '', 'MA', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(57, '', 'Online', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(58, '', '', 'A. Burhanuddin', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(59, '', '', 'Achmad Nurkholik', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(60, '', '', 'Agustin Wahyuningtyas', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(61, '', '', 'Akhada Irmawati', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(62, '', '', 'Akhmad Anwar Sadad', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(63, '', '', 'Alynia Purwaning', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(64, '', '', 'Andika Setyobudi', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(65, '', '', 'Choirul Purwati', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(66, '', '', 'Chusniatul Khisoli', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(67, '', '', 'Chusnul Chotimah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(68, '', '', 'Dafis Luqqi Muzakki', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(69, '', '', 'Dani Setiawan', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(70, '', '', 'SDenny Sandyarani', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(71, '', '', 'Devi Antika Sari', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(72, '', '', 'Djuniati Kustifah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(73, '', '', 'Dwi Cahyanti Yuliasih', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(74, '', '', 'Eka Saryani', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(75, '', '', 'Elly Faizah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(76, '', '', 'Fashiha Ulinnuha', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(77, '', '', 'Fitria Kurnia Fatma', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(78, '', '', 'Fitria', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(79, '', '', 'Gori Laksana Lusfida', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(80, '', '', 'Ida Susanti', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(81, '', '', 'Ismi Mardiyanah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(82, '', '', 'Khurin Alifia Yahya', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(83, '', '', 'Khusnul Feryka A. Sari', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(84, '', '', 'Khusnul Khotimah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(85, '', '', 'Krisdianto', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(86, '', '', 'Listiyowati', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(87, '', '', 'M. Hafidz Sulistyawan', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(88, '', '', 'M. Januar Arifin"', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(89, '', '', 'Mastoni Muhajirin', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(90, '', '', 'Muhammad Hullah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(91, '', '', 'Nani Harpanti', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(92, '', '', 'Nila Meirinda Wardhani', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(93, '', '', 'Ninik Ikawanti', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(94, '', '', 'Ninik Kuswahyuni', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(95, '', '', 'Novita Mauris', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(96, '', '', 'Nur Aisyiyah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(97, '', '', 'Nur Miftahul Hikmah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(98, '', '', 'Nurul Hidajati', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(99, '', '', 'Puny Komariah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(100, '', '', 'Ramadani Akhirul', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(101, '', '', 'Rhiza Arif Firman', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(102, '', '', 'Roviatin Kurnia', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(103, '', '', 'Saidah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(104, '', '', 'Santi Islamy Romadhony A', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(105, '', '', 'Siti Masruroh', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(106, '', '', 'Siti Rukoiyah Ulfah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(107, '', '', 'Sri Handayani', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(108, '', '', 'Suyanti', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(109, '', '', 'Ulil Fadhilah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(110, '', '', 'Umi Fauziah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(111, '', '', 'Umi Khusnul', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(112, '', '', 'Wahyuningsih', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(113, '', '', 'Wiwit Sofiyanti Budiono', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(114, '', '', 'Yanuati Intan', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(115, '', '', 'Yuni Ikhsaniah', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(116, '', '', 'Ziauddin Bahtiar', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(117, '', '', 'Zulfi Sufairoh', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(118, '', '', 'Kukuh Nurma Nugroho', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(119, '', '', 'Makhfud Kurniawan Hidayat', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(120, '', '', 'Online', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL),
-(121, 'SD-1A', 'SD', 'A. Burhanuddin', 'Asyah', 'Jl. Raya No. 123', '081234567890', 'Zakat', 'Barang', NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Barang', NULL, 'Donasi untuk zakat SD', NULL, 2);
+CREATE TABLE IF NOT EXISTS `donasi_perincian_association` (
+  `id_donasi` int(11) NOT NULL,
+  `id_perincian_donasi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `donatur`
+--
+
+CREATE TABLE IF NOT EXISTS `donatur` (
+`id_donatur` int(11) NOT NULL,
+  `nama_id_donatur` varchar(100) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
+
+--
+-- Dumping data for table `donatur`
+--
+
+INSERT INTO `donatur` (`id_donatur`, `nama_id_donatur`) VALUES
+(1, 'TPA-PS'),
+(2, 'PGIT'),
+(3, 'TK-A1 - A2'),
+(4, 'TK-A3 - A5'),
+(5, 'TK-B1 - B2'),
+(6, 'TK-B3 - B4'),
+(7, 'SD-1A'),
+(8, 'SD-1B'),
+(9, 'SD-1C'),
+(10, 'SD-1D'),
+(11, 'SD-1|CP'),
+(12, 'SD-2A'),
+(13, 'SD-2B'),
+(14, 'SD-2C'),
+(15, 'SD-2D'),
+(16, 'SD-3A'),
+(17, 'SD-3B'),
+(18, 'SD-3C'),
+(19, 'SD-3D'),
+(20, 'SD-4A'),
+(21, 'SD-4B'),
+(22, 'SD-4C'),
+(23, 'SD-4D'),
+(24, 'SD-5A'),
+(25, 'SD-5B'),
+(26, 'SD-5C'),
+(27, 'SD-5D'),
+(28, 'SD-6A'),
+(29, 'SD-6B'),
+(30, 'SD-6C'),
+(31, 'SD-6D'),
+(32, 'SMP-7A'),
+(33, 'SMP-7B'),
+(34, 'SMP-7C'),
+(35, 'SMP-7D'),
+(36, 'SMP-8A'),
+(37, 'SMP-8B'),
+(38, 'SMP-8C'),
+(39, 'SMP-8D'),
+(40, 'SMP-9A'),
+(41, 'SMP-9B'),
+(42, 'SMP-9C'),
+(43, 'SMP-9D'),
+(44, 'MA-10'),
+(45, 'MA-11'),
+(46, 'MA-12'),
+(47, 'P1'),
+(48, 'P2'),
+(49, 'P3'),
+(50, 'P4'),
+(51, 'P5'),
+(52, 'Umum');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gerai`
+--
+
+CREATE TABLE IF NOT EXISTS `gerai` (
+`id_gerai` int(11) NOT NULL,
+  `nama_gerai` varchar(50) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `gerai`
+--
+
+INSERT INTO `gerai` (`id_gerai`, `nama_gerai`) VALUES
+(1, 'PAUD'),
+(2, 'SD'),
+(3, 'SMP'),
+(4, 'MA'),
+(5, 'Online');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `perincian_donasi`
+--
+
+CREATE TABLE IF NOT EXISTS `perincian_donasi` (
+`id_perincian_donasi` int(11) NOT NULL,
+  `id_donasi` int(11) DEFAULT NULL,
+  `perincian_donasi` varchar(50) DEFAULT NULL,
+  `bentuk_donasi` varchar(10) DEFAULT NULL,
+  `jumlah_rp` int(11) DEFAULT NULL,
+  `jumlah_paket` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `petugas_gerai`
+--
+
+CREATE TABLE IF NOT EXISTS `petugas_gerai` (
+`id_petugas_gerai` int(11) NOT NULL,
+  `nama_petugas_gerai` varchar(100) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=64 ;
+
+--
+-- Dumping data for table `petugas_gerai`
+--
+
+INSERT INTO `petugas_gerai` (`id_petugas_gerai`, `nama_petugas_gerai`) VALUES
+(1, 'A. Burhanuddin'),
+(2, 'Achmad Nurkholik'),
+(3, 'Agustin Wahyuningtyas'),
+(4, 'Akhada Irmawati'),
+(5, 'Akhmad Anwar Sadad'),
+(6, 'Alynia Purwaning'),
+(7, 'Andika Setyobudi'),
+(8, 'Choirul Purwati'),
+(9, 'Chusniatul Khisoli'),
+(10, 'Chusnul Chotimah'),
+(11, 'Dafis Luqqi Muzakki'),
+(12, 'Dani Setiawan'),
+(13, 'SDenny Sandyarani'),
+(14, 'Devi Antika Sari'),
+(15, 'Djuniati Kustifah'),
+(16, 'Dwi Cahyanti Yuliasih'),
+(17, 'Eka Saryani'),
+(18, 'Elly Faizah'),
+(19, 'Fashiha Ulinnuha'),
+(20, 'Fitria Kurnia Fatma'),
+(21, 'Fitria'),
+(22, 'Gori Laksana Lusfida'),
+(23, 'Ida Susanti'),
+(24, 'Ismi Mardiyanah'),
+(25, 'Khurin Alifia Yahya'),
+(26, 'Khusnul Feryka A. Sari'),
+(27, 'Khusnul Khotimah'),
+(28, 'Krisdianto'),
+(29, 'Listiyowati'),
+(30, 'M. Hafidz Sulistyawan'),
+(31, 'M. Januar Arifin"'),
+(32, 'Mastoni Muhajirin'),
+(33, 'Muhammad Hullah'),
+(34, 'Nani Harpanti'),
+(35, 'Nila Meirinda Wardhani'),
+(36, 'Ninik Ikawanti'),
+(37, 'Ninik Kuswahyuni'),
+(38, 'Novita Mauris'),
+(39, 'Nur Aisyiyah'),
+(40, 'Nur Miftahul Hikmah'),
+(41, 'Nurul Hidajati'),
+(42, 'Puny Komariah'),
+(43, 'Ramadani Akhirul'),
+(44, 'Rhiza Arif Firman'),
+(45, 'Roviatin Kurnia'),
+(46, 'Saidah'),
+(47, 'Santi Islamy Romadhony A'),
+(48, 'Siti Masruroh'),
+(49, 'Siti Rukoiyah Ulfah'),
+(50, 'Sri Handayani'),
+(51, 'Suyanti'),
+(52, 'Ulil Fadhilah'),
+(53, 'Umi Fauziah'),
+(54, 'Umi Khusnul'),
+(55, 'Wahyuningsih'),
+(56, 'Wiwit Sofiyanti Budiono'),
+(57, 'Yanuati Intan'),
+(58, 'Yuni Ikhsaniah'),
+(59, 'Ziauddin Bahtiar'),
+(60, 'Zulfi Sufairoh'),
+(61, 'Kukuh Nurma Nugroho'),
+(62, 'Makhfud Kurniawan Hidayat'),
+(63, 'Online');
 
 --
 -- Indexes for dumped tables
@@ -200,7 +244,37 @@ INSERT INTO `donasi_data` (`id_donasi`, `nama_id_donatur`, `gerai`, `petugas_ger
 -- Indexes for table `donasi_data`
 --
 ALTER TABLE `donasi_data`
- ADD PRIMARY KEY (`id_donasi`);
+ ADD PRIMARY KEY (`id_donasi`), ADD KEY `id_donatur` (`id_donatur`), ADD KEY `id_gerai` (`id_gerai`), ADD KEY `id_petugas_gerai` (`id_petugas_gerai`);
+
+--
+-- Indexes for table `donasi_perincian_association`
+--
+ALTER TABLE `donasi_perincian_association`
+ ADD PRIMARY KEY (`id_donasi`,`id_perincian_donasi`), ADD KEY `id_perincian_donasi` (`id_perincian_donasi`);
+
+--
+-- Indexes for table `donatur`
+--
+ALTER TABLE `donatur`
+ ADD PRIMARY KEY (`id_donatur`);
+
+--
+-- Indexes for table `gerai`
+--
+ALTER TABLE `gerai`
+ ADD PRIMARY KEY (`id_gerai`);
+
+--
+-- Indexes for table `perincian_donasi`
+--
+ALTER TABLE `perincian_donasi`
+ ADD PRIMARY KEY (`id_perincian_donasi`);
+
+--
+-- Indexes for table `petugas_gerai`
+--
+ALTER TABLE `petugas_gerai`
+ ADD PRIMARY KEY (`id_petugas_gerai`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -210,7 +284,46 @@ ALTER TABLE `donasi_data`
 -- AUTO_INCREMENT for table `donasi_data`
 --
 ALTER TABLE `donasi_data`
-MODIFY `id_donasi` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=122;
+MODIFY `id_donasi` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `donatur`
+--
+ALTER TABLE `donatur`
+MODIFY `id_donatur` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+--
+-- AUTO_INCREMENT for table `gerai`
+--
+ALTER TABLE `gerai`
+MODIFY `id_gerai` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `perincian_donasi`
+--
+ALTER TABLE `perincian_donasi`
+MODIFY `id_perincian_donasi` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `petugas_gerai`
+--
+ALTER TABLE `petugas_gerai`
+MODIFY `id_petugas_gerai` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `donasi_data`
+--
+ALTER TABLE `donasi_data`
+ADD CONSTRAINT `donasi_data_ibfk_1` FOREIGN KEY (`id_donatur`) REFERENCES `donatur` (`id_donatur`),
+ADD CONSTRAINT `donasi_data_ibfk_2` FOREIGN KEY (`id_gerai`) REFERENCES `gerai` (`id_gerai`),
+ADD CONSTRAINT `donasi_data_ibfk_3` FOREIGN KEY (`id_petugas_gerai`) REFERENCES `petugas_gerai` (`id_petugas_gerai`);
+
+--
+-- Constraints for table `donasi_perincian_association`
+--
+ALTER TABLE `donasi_perincian_association`
+ADD CONSTRAINT `donasi_perincian_association_ibfk_1` FOREIGN KEY (`id_donasi`) REFERENCES `donasi_data` (`id_donasi`),
+ADD CONSTRAINT `donasi_perincian_association_ibfk_2` FOREIGN KEY (`id_perincian_donasi`) REFERENCES `perincian_donasi` (`id_perincian_donasi`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

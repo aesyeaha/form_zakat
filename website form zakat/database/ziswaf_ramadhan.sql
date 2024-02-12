@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2024 at 03:10 PM
+-- Generation Time: Feb 08, 2024 at 06:51 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -27,7 +27,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `donasi_data` (
-`id_donasi` int(11) NOT NULL,
   `id_donatur` int(11) DEFAULT NULL,
   `id_gerai` int(11) DEFAULT NULL,
   `id_petugas_gerai` int(11) DEFAULT NULL,
@@ -38,7 +37,8 @@ CREATE TABLE IF NOT EXISTS `donasi_data` (
   `keterangan` text,
   `total_rp` int(11) DEFAULT NULL,
   `total_paket` int(11) DEFAULT NULL,
-  `bukti_pembayaran` blob
+  `bukti_pembayaran` blob,
+`id_donasi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -271,7 +271,7 @@ ALTER TABLE `gerai`
 -- Indexes for table `perincian_donasi`
 --
 ALTER TABLE `perincian_donasi`
- ADD PRIMARY KEY (`id_perincian_donasi`), ADD KEY `id_donasi` (`id_donasi`);
+ ADD PRIMARY KEY (`id_perincian_donasi`), ADD KEY `perincian_donasi_ibfk_1` (`id_donasi`);
 
 --
 -- Indexes for table `petugas_gerai`
@@ -329,7 +329,6 @@ ADD CONSTRAINT `donasi_data_ibfk_3` FOREIGN KEY (`id_petugas_gerai`) REFERENCES 
 -- Constraints for table `donasi_perincian_association`
 --
 ALTER TABLE `donasi_perincian_association`
-ADD CONSTRAINT `donasi_perincian_association_ibfk_1` FOREIGN KEY (`id_donasi`) REFERENCES `donasi_data` (`id_donasi`),
 ADD CONSTRAINT `donasi_perincian_association_ibfk_2` FOREIGN KEY (`id_perincian_donasi`) REFERENCES `perincian_donasi` (`id_perincian_donasi`);
 
 --

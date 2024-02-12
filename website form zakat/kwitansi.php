@@ -116,6 +116,7 @@ if (isset($_SESSION['id_donasi'])) {
         <div class="sidebar-links">
             <a href="index.php">Beranda</a>
             <a href="form_donasi.php">Form Donasi</a>
+            <a href="dashboard.php">Dashboard</a>
         </div>
         <div class="sidebar-buttons">
             <button id="share-btn">Share</button>

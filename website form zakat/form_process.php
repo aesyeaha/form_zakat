@@ -38,6 +38,9 @@ $stmt_donasi_data->bind_param("iiissssssiii", $id_donatur, $id_gerai, $id_petuga
 // Set default values for id_donatur, id_gerai, and id_petugas_gerai
 $id_donatur = $id_gerai = $id_petugas_gerai = 0;
 
+// Set default values for id_donasi, id_gerai, and id_petugas_gerai
+$id_donasi = 0;
+
 // Get form data for donasi_data
 $id_donatur = $_POST['id_donatur'];
 $id_gerai = $_POST['id_gerai'];
@@ -102,7 +105,7 @@ if ($bukti_pembayaran["error"] == UPLOAD_ERR_OK) {
     
             $stmt_perincian_donasi->execute();
             $id_perincian_donasi = $conn->insert_id;
-            $stmt_perincian_donasi->close();
+            $stmt_perincian_donasi->close()
     
             // Associate the perincian_donasi with the donasi_data
             $stmt_donasi_perincian_association = $conn->prepare("INSERT INTO donasi_perincian_association (id_donasi, id_perincian_donasi) VALUES (?, ?)");
