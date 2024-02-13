@@ -4,126 +4,58 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Include database connection file
+// Memastikan formulir disubmit dari halaman yang diizinkan
+// if (!isset($_POST['id_donasi']) || !isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'form_donasi.php') === false) {
+//     die('Acces Denied');
+// }
+
 require_once 'db_connection.php';
 
-// Get form data
-$donasiCount = $_POST['donasiCount'];
-$cara_pembayaran = $_POST['cara_pembayaran'];
-$bukti_pembayaran = $_FILES['bukti_pembayaran'];
-$keterangan = $_POST['keterangan'];
-
-// Get donasi data
-for ($i = 0; $i < $donasiCount; $i++) {
-    $perincian_donasi[] = $_POST["perincian_donasi"][$i];
-    $bentuk_donasi[] = $_POST["bentuk_donasi"][$i];
-    $jumlah_rp[] = $_POST["jumlah_rp"][$i];
-    $jumlah_paket[] = $_POST["jumlah_paket"][$i];
-}
-
-// Validate form data
-if (empty($perincian_donasi) || empty($bentuk_donasi) || empty($jumlah_rp) || empty($jumlah_paket)) {
-    echo "Error: Invalid form data.";
-    exit;
-}
-
-// Calculate total Rp and total Paket
-$total_rp = array_sum($jumlah_rp);
-$total_paket = array_sum($jumlah_paket);
-
-// Prepare and bind donasi_data table data
-$stmt_donasi_data = $conn->prepare("INSERT INTO donasi_data (id_donatur, id_gerai, id_petugas_gerai, nama_donatur, alamat, nomor_hp, cara_pembayaran, bukti_pembayaran, keterangan, total_rp, total_paket) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt_donasi_data->bind_param("iiissssssiii", $id_donatur, $id_gerai, $id_petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $cara_pembayaran, $bukti_pembayaran, $keterangan, $total_rp, $total_paket);
-
-// Set default values for id_donatur, id_gerai, and id_petugas_gerai
-$id_donatur = $id_gerai = $id_petugas_gerai = 0;
-
-// Set default values for id_donasi, id_gerai, and id_petugas_gerai
-$id_donasi = 0;
-
-// Get form data for donasi_data
+// Ambil data dari formulir
 $id_donatur = $_POST['id_donatur'];
-$id_gerai = $_POST['id_gerai'];
+$id_gerai = $_POST['gerai'];
+$id_petugas_gerai = $_POST['petugas_gerai'];
 $nama_donatur = $_POST['nama_donatur'];
 $alamat = $_POST['alamat'];
 $nomor_hp = $_POST['nomor_hp'];
+$perincian_donasi = $_POST['perincian_donasi'];
+$bentuk_donasi = $_POST['bentuk_donasi'];
+$jumlah_rp = isset($_POST['jumlah_rp'][$i]) ? $_POST['jumlah_rp'][$i] : 0;
+$jumlah_paket = isset($_POST['jumlah_paket'][$i]) ? $_POST['jumlah_paket'][$i] : 0;
+$cara_pembayaran = $_POST['cara_pembayaran'];
+$bukti_pembayaran = isset($_FILES['bukti_pembayaran']) ? $_FILES['bukti_pembayaran'] : null;
+$keterangan = $_POST['keterangan'];
+$donasiCount = intval($_POST['donasiCount']);
+$totalRp = isset($_POST['totalRp']) ? $_POST['totalRp'] : 0;
+$totalPaket = isset($_POST['totalPaket']) ? $_POST['totalPaket'] : 0;
 
-// Prepare and bind perincian_donasi table data
-$stmt_perincian_donasi = $conn->prepare("INSERT INTO perincian_donasi (id_donasi, perincian_donasi, bentuk_donasi, jumlah_rp, jumlah_paket) VALUES (?, ?, ?, ?, ?)");
+// Simpan data donasi
+$conn->begin_transaction();
+try {
+    // Ambil ID donasi terakhir
+    $query_last_donasi = "SELECT id_donasi FROM donasi ORDER BY id_donasi DESC LIMIT 1";
+    $result_last_donasi = $conn->query($query_last_donasi);
+    $row_last_donasi = $result_last_donasi->fetch_assoc();
+    $id_donasi = $row_last_donasi['id_donasi'] + 1;
 
-// Move the uploaded file
-if ($bukti_pembayaran["error"] == UPLOAD_ERR_OK) {
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($bukti_pembayaran["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    // Check if the uploaded file is an image
-    $check = getimagesize($bukti_pembayaran["tmp_name"]);
-    if ($check === false) {
-        echo "Error: File is not an image.";
-        exit;
+    // Simpan data donasi
+    $jumlah_rp_decimal = array();
+    for ($i = 0; $i < $donasiCount; $i++) {
+        $jumlah_rp_decimal[$i] = floatval($jumlah_rp[$i]);
     }
+    $stmt_insert_donasi->bind_param("ississssssssssssddddddd", $id_donasi, $id_donatur, $id_gerai, $id_petugas_gerai, $nama_donatur, $alamat, $nomor_hp, $perincian_donasi[$i], $bentuk_donasi[$i], $jumlah_rp_decimal[$i], $jumlah_paket[$i], $cara_pembayaran, $bukti_pembayaran, $keterangan, $total_jumlah_rp, $total_jumlah_paket);
+    $stmt_insert_donasi->send_long_data(11, $bukti_pembayaran);
+    $stmt_insert_donasi->execute(); 
 
-        // Check if uploads directory exists, if not create it
-        if (!file_exists($target_dir)) {
-            mkdir($target_dir, 0777, true);
-        }
-    
-        // Check if $imageFileType is a valid image file type
-        $allowed_types = array("jpg", "jpeg", "png", "gif");
-        if (!in_array($imageFileType, $allowed_types)) {
-            echo "Error: Invalid file type.";
-            exit;
-        }
-    
-        // Check if the file already exists
-        if (file_exists($target_file)) {
-            echo "Error: File already exists.";
-            exit;
-        }
-    
-        // Check file size
-        if ($bukti_pembayaran["size"] > 2000000) {
-            echo "Error: File size is too large.";
-            exit;
-        }
-    
-        // Move the uploaded file
-        if (!move_uploaded_file($bukti_pembayaran["tmp_name"], $target_file)) {
-            echo "Error: Failed to upload file.";
-            exit;
-        }
-    
-        // Insert data into donasi_data table
-        $stmt_donasi_data->execute();
-        $id_donasi = $conn->insert_id;
-    
-        // Insert data into perincian_donasi table
-        for ($i = 0; $i < $donasiCount; $i++) {
-            $perincian_donasi[$i] = $conn->real_escape_string($perincian_donasi[$i]);
-            $bentuk_donasi[$i] = $conn->real_escape_string($bentuk_donasi[$i]);
-    
-            $stmt_perincian_donasi->execute();
-            $id_perincian_donasi = $conn->insert_id;
-            $stmt_perincian_donasi->close()
-    
-            // Associate the perincian_donasi with the donasi_data
-            $stmt_donasi_perincian_association = $conn->prepare("INSERT INTO donasi_perincian_association (id_donasi, id_perincian_donasi) VALUES (?, ?)");
-            $stmt_donasi_perincian_association->bind_param("ii", $id_donasi, $id_perincian_donasi);
-            $stmt_donasi_perincian_association->execute();
-            $stmt_donasi_perincian_association->close();
-        }
-    
-        // Redirect to kwitansi page
-        header("Location: kwitansi.php?id_donasi=$id_donasi");
-        exit;
-    
-    } else {
-        echo "Error: Failed to upload file.";
-        exit;
-    }
-    
-    // Close the database connection
-    $conn->close();
-    
-    ?>
+    // Update total jumlah donasi 
+    $query_update_total_donasi = "UPDATE donasi SET total_jumlah_rp = ?, total_jumlah_paket = ? WHERE id_donasi = ?"; $stmt_update_total_donasi = $conn->prepare($query_update_total_donasi); $stmt_update_total_donasi->bind_param("dii", $totalRp, $totalPaket, $id_donasi); $stmt_update_total_donasi->execute();
+        
+    $conn->commit();
+        
+    // Redirect ke halaman kwitansi.php 
+    header('Location: kwitansi.php?id_donasi=' . $id_donasi); exit;
+        
+} 
+catch (\Exception $e) { echo 'Terjadi kesalahan: ' . $e->getMessage(); $conn->rollback(); }
+        
+$conn->close(); ?>

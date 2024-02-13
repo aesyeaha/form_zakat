@@ -42,14 +42,15 @@ error_reporting(E_ALL);
 
     <div class="container">
         <h1>Form Donasi Zakat</h1>
-        <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;"
+        <!-- <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;" -->
+        <form action="form_process.php" method="post" id="donasiForm" 
             enctype="multipart/form-data">
 
             <?php
             include 'db_connection.php';
 
             // Query untuk dropdown id_donatur 
-            $query_donatur = "SELECT DISTINCT id_donatur, nama_id_donatur FROM donatur";
+            $query_donatur = "SELECT DISTINCT nama_donatur FROM donatur";
             $stmt_donatur = $conn->prepare($query_donatur);
             $stmt_donatur->execute();
             $result_donatur = $stmt_donatur->get_result();
@@ -71,14 +72,12 @@ error_reporting(E_ALL);
                 $id_donasi = intval($_POST['id_donasi']);
             }
             ?>
-            
-            <input type="hidden" name="id_donasi" value="<?php echo $id_donasi; ?>">
 
             <label for="id_donatur">ID Donatur:</label>
             <select name="id_donatur" id="id_donatur">
                 <?php
             while ($row_donatur = $result_donatur->fetch_assoc()) {
-                echo "<option value='" . $row_donatur['id_donatur'] . "'>" . $row_donatur['nama_id_donatur'] . "</option>";
+                echo "<option value='" . $row_donatur['nama_donatur'] . "'>" . $row_donatur['nama_donatur'] . "</option>";
             }
             ?>
             </select>
@@ -102,7 +101,7 @@ error_reporting(E_ALL);
             </select>
 
             <label for="nama_donatur">Nama Donatur:</label>
-            <input type="text" name="nama_donatur" placeholder="Nama Donatur" required>
+            <input type="text" name="nama_donatur" id="nama_donatur" placeholder="Nama Donatur" required>
 
             <label for="alamat">Alamat:</label>
             <input type="text" name="alamat" placeholder="Alamat" required>
@@ -110,9 +109,9 @@ error_reporting(E_ALL);
             <label for="nomor_hp">Nomor Handphone:</label>
             <input type="text" name="nomor_hp" placeholder="Nomor Handphone" required>
 
-            <div id="donasiDetails">
-                <!-- Detail donasi akan ditampilkan di sini -->
-            </div>
+            <!-- <div id="donasiDetails">
+                
+            </div> -->
 
             <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
 
@@ -136,17 +135,18 @@ error_reporting(E_ALL);
                 </select>
             </div>
 
-            <div id="buktiPembayaranDetails" style="display: none;">
+            <!-- <div id="buktiPembayaranDetails" style="display: none;">
                 <label for="bukti_pembayaran">Unggah Bukti Pembayaran (Maks. 2MB):</label>
                 <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" accept=".jpg, .jpeg, .png" required>
-            </div>
+            </div> -->
 
             <label for="keterangan">Keterangan:</label>
             <textarea name="keterangan" placeholder="Keterangan"></textarea>
 
             <input type="hidden" id="donasiCount" name="donasiCount" value="0">
 
-            <button type="button" onclick="simpanDonasi()">Simpan Donasi</button>
+            <!-- <button type="button" onclick="simpanDonasi()">Simpan Donasi</button> -->
+            <button type="submit" onsubmit="simpanDonasi()">Simpan Donasi</button>
         </form>
 
         <script>
