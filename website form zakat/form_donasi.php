@@ -42,7 +42,7 @@ error_reporting(E_ALL);
 
     <div class="container">
         <h1>Form Donasi Zakat</h1>
-        <!-- <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;" -->
+        <form action="form_process.php" method="post" id="donasiForm" onsubmit="return false;">
         <form action="form_process.php" method="post" id="donasiForm" 
             enctype="multipart/form-data">
 
@@ -109,9 +109,9 @@ error_reporting(E_ALL);
             <label for="nomor_hp">Nomor Handphone:</label>
             <input type="text" name="nomor_hp" placeholder="Nomor Handphone" required>
 
-            <!-- <div id="donasiDetails">
+            <div id="donasiDetails">
                 
-            </div> -->
+            </div>
 
             <button type="button" onclick="tambahDonasi()">Tambah Donasi</button>
 
@@ -135,18 +135,17 @@ error_reporting(E_ALL);
                 </select>
             </div>
 
-            <!-- <div id="buktiPembayaranDetails" style="display: none;">
+            <div id="buktiPembayaranDetails" style="display: none;">
                 <label for="bukti_pembayaran">Unggah Bukti Pembayaran (Maks. 2MB):</label>
                 <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" accept=".jpg, .jpeg, .png" required>
-            </div> -->
+            </div>
 
             <label for="keterangan">Keterangan:</label>
             <textarea name="keterangan" placeholder="Keterangan"></textarea>
 
             <input type="hidden" id="donasiCount" name="donasiCount" value="0">
 
-            <!-- <button type="button" onclick="simpanDonasi()">Simpan Donasi</button> -->
-            <button type="submit" onsubmit="simpanDonasi()">Simpan Donasi</button>
+            <button type="button" onclick="simpanDonasi()">Simpan Donasi</button>
         </form>
 
         <script>

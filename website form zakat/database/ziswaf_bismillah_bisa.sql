@@ -298,7 +298,7 @@ MODIFY `id_petugas_gerai` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
 --
 ALTER TABLE `donasi`
 ADD CONSTRAINT `donasi_ibfk_1` FOREIGN KEY (`id_donatur`) REFERENCES `donatur` (`id_donatur`) ON DELETE CASCADE,
-ADD CONSTRAINT `donasi_ibfk_2` FOREIGN KEY (`id_gerai`) REFERENCES `gerai` (`id_gerai`) ON DELETE CASCADE,
+ADD CONSTuuRAINT `donasi_ibfk_2` FOREIGN KEY (`id_gerai`) REFERENCES `gerai` (`id_gerai`) ON DELETE CASCADE,
 ADD CONSTRAINT `donasi_ibfk_3` FOREIGN KEY (`id_petugas_gerai`) REFERENCES `petugas_gerai` (`id_petugas_gerai`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

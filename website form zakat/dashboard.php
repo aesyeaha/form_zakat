@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-
     <nav class="navbar navbar-dark bg-primary">
         <div id="toggle-btn">&#9776;</div>
         <img src="./image/logo.png" alt="Beranda" id="brand-logo">
@@ -28,6 +27,7 @@
         <div class="sidebar-buttons">
             <button id="share-btn">Share</button>
             <button id="about-btn">About</button>
+            <button type="submit" name="logout" class="btn btn-link text-danger">Logout</button>
         </div>
     </div>
 
@@ -43,8 +43,27 @@
             exit;
         }
 
+        // Logout
+        if (isset($_POST['logout'])) {
+            // Hapus semua data session
+            session_destroy();
+            // Tampilkan pesan logout berhasil
+            $_SESSION['logout_message'] = "You have been logged out successfully.";
+            // Alihkan ke halaman dashboard
+            header("Location: dashboard.php");
+        }
+
+        // Tampilkan pesan logout berhasil jika ada
+        if (isset($_SESSION['logout_message'])) {
+            echo '<p style="color: green;">' . $_SESSION['logout_message'] . '</p>';
+            unset($_SESSION['logout_message']);
+        }
+
         // Get the user's data from the database
-        $stmt = $conn->prepare("SELECT * FROM donasi_data WHERE nama_donatur = ?");
+        $stmt = $conn->prepare("SELECT * FROM donasi WHERE nama_donatur = ?");
+        if ($stmt === false) {
+            die("Error: " . $conn->error);
+        }
         $stmt->bind_param("s", $_SESSION['username']);
         $stmt->execute();
         $result = $stmt->get_result();
