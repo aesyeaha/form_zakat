@@ -74,7 +74,6 @@ $stmt->close();
     </nav>
 
     <div class="container">
-        <!-- Displaying Kwitansi Donasi -->
         <h1>Kwitansi Donasi</h1>
         <p>Terima kasih atas donasi Anda, <?= htmlspecialchars($donasi['nama_donatur']) ?>. Berikut adalah detail donasi Anda:</p>
         <ul>
