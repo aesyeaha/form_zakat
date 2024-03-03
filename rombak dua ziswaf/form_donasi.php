@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Menu</title>
+    <title>Form Donasi</title>
     <!-- CSS for Navbar -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <style>
@@ -269,7 +269,7 @@
 
         <div class="form-group">
         <label for="perincian_donasi2" class="form-label" id="label-perincian-donasi2" style="display:none;">Donasi Kedua:</label>
-            <select name="perincian_donasi2" id="perincian_donasi2" class="form-control" required style="display:none;">
+            <select name="perincian_donasi2" id="perincian_donasi2" class="form-control" style="display:none;">
                 <option value="">Pilih Perincian Donasi Kedua</option>
                 <?php
                 // Menghubungkan ke database
@@ -303,7 +303,7 @@
         </div>
         <div class="form-group" id="form-bentuk-donasi2" style="display:none;">
             <label for="bentuk_donasi2" class="form-label">Bentuk Donasi Kedua:</label>
-            <select name="bentuk_donasi2" id="bentuk_donasi2" class="form-control" required>
+            <select name="bentuk_donasi2" id="bentuk_donasi2" class="form-control">
                 <option value="">Pilih Bentuk Donasi Kedua</option>
                 <option value="uang">Uang</option>
                 <option value="barang">Barang</option>
@@ -311,16 +311,16 @@
         </div>
         <div class="form-group" id="form-jumlah-uang2" style="display:none;">
             <label for="jumlah_rp2" class="form-label">Jumlah (Rp):</label>
-            <input type="number" name="jumlah_rp2" id="jumlah_rp2" class="form-control" placeholder="Jumlah Donasi Kedua (Rp)" required>
+            <input type="number" name="jumlah_rp2" id="jumlah_rp2" class="form-control" placeholder="Jumlah Donasi Kedua (Rp)">
         </div>
         <div class="form-group" id="form-jumlah-barang2" style="display:none;">
             <label for="jumlah_paket2" class="form-label">Jumlah Paket:</label>
-            <input type="number" name="jumlah_paket2" id="jumlah_paket2" class="form-control" placeholder="Jumlah Donasi Kedua (Paket)" required>
+            <input type="number" name="jumlah_paket2" id="jumlah_paket2" class="form-control" placeholder="Jumlah Donasi Kedua (Paket)">
         </div>
 
         <div class="form-group">
             <label for="perincian_donasi3" class="form-label" id="label-perincian-donasi3" style="display:none;">Donasi Ketiga:</label>
-            <select name="perincian_donasi3" id="perincian_donasi3" class="form-control" required style="display:none;">
+            <select name="perincian_donasi3" id="perincian_donasi3" class="form-control" style="display:none;">
                 <option value="">Pilih Perincian Donasi Ketiga</option>
                 <?php
                 // Menghubungkan ke database
@@ -354,7 +354,7 @@
         </div>
         <div class="form-group" id="form-bentuk-donasi3" style="display:none;">
             <label for="bentuk_donasi3" class="form-label">Bentuk Donasi Ketiga:</label>
-            <select name="bentuk_donasi3" id="bentuk_donasi3" class="form-control" required>
+            <select name="bentuk_donasi3" id="bentuk_donasi3" class="form-control">
                 <option value="">Pilih Bentuk Donasi Ketiga</option>
                 <option value="uang">Uang</option>
                 <option value="barang">Barang</option>
@@ -362,16 +362,16 @@
         </div>
         <div class="form-group" id="form-jumlah-uang3" style="display:none;">
             <label for="jumlah_rp3" class="form-label">Jumlah (Rp):</label>
-            <input type="number" name="jumlah_rp3" id="jumlah_rp3" class="form-control" placeholder="Jumlah Donasi Ketiga (Rp)" required>
+            <input type="number" name="jumlah_rp3" id="jumlah_rp3" class="form-control" placeholder="Jumlah Donasi Ketiga (Rp)">
         </div>
         <div class="form-group" id="form-jumlah-barang3" style="display:none;">
             <label for="jumlah_paket3" class="form-label">Jumlah Paket:</label>
-            <input type="number" name="jumlah_paket3" id="jumlah_paket3" class="form-control" placeholder="Jumlah Donasi Ketiga (Paket)" required>
+            <input type="number" name="jumlah_paket3" id="jumlah_paket3" class="form-control" placeholder="Jumlah Donasi Ketiga (Paket)">
         </div>
 
         <div class="form-group">
             <label for="perincian_donasi4" class="form-label" id="label-perincian-donasi4" style="display:none;">Donasi Keempat:</label>
-            <select name="perincian_donasi4" id="perincian_donasi4" class="form-control" required style="display:none;">
+            <select name="perincian_donasi4" id="perincian_donasi4" class="form-control" style="display:none;">
                 <option value="">Pilih Perincian Donasi Keempat</option>
                 <?php
                 // Menghubungkan ke database
@@ -405,7 +405,7 @@
         </div>
         <div class="form-group" id="form-bentuk-donasi4" style="display:none;">
             <label for="bentuk_donasi4" class="form-label">Bentuk Donasi Keempat:</label>
-            <select name="bentuk_donasi4" id="bentuk_donasi4" class="form-control" required>
+            <select name="bentuk_donasi4" id="bentuk_donasi4" class="form-control">
                 <option value="">Pilih Bentuk Donasi Keempat</option>
                 <option value="uang">Uang</option>
                 <option value="barang">Barang</option>
@@ -413,16 +413,16 @@
         </div>
         <div class="form-group" id="form-jumlah-uang4" style="display:none;">
             <label for="jumlah_rp4" class="form-label">Jumlah (Rp):</label>
-            <input type="number" name="jumlah_rp4" id="jumlah_rp4" class="form-control" placeholder="Jumlah Donasi Keempat (Rp)" required>
+            <input type="number" name="jumlah_rp4" id="jumlah_rp4" class="form-control" placeholder="Jumlah Donasi Keempat (Rp)">
         </div>
         <div class="form-group" id="form-jumlah-barang4" style="display:none;">
             <label for="jumlah_paket4" class="form-label">Jumlah Paket:</label>
-            <input type="number" name="jumlah_paket4" id="jumlah_paket4" class="form-control" placeholder="Jumlah Donasi Keempat (Paket)" required>
+            <input type="number" name="jumlah_paket4" id="jumlah_paket4" class="form-control" placeholder="Jumlah Donasi Keempat (Paket)">
         </div>
 
         <div class="form-group">
             <label for="perincian_donasi5" class="form-label" id="label-perincian-donasi5" style="display:none;">Donasi Kelima:</label>
-            <select name="perincian_donasi5" id="perincian_donasi5" class="form-control" required style="display:none;">
+            <select name="perincian_donasi5" id="perincian_donasi5" class="form-control" style="display:none;">
                 <option value="">Pilih Perincian Donasi Kelima:</option>
                 <?php
                 // Menghubungkan ke database
@@ -456,7 +456,7 @@
         </div>
         <div class="form-group" id="form-bentuk-donasi5" style="display:none;">
             <label for="bentuk_donasi5" class="form-label">Bentuk Donasi Kelima::</label>
-            <select name="bentuk_donasi5" id="bentuk_donasi5" class="form-control" required>
+            <select name="bentuk_donasi5" id="bentuk_donasi5" class="form-control">
                 <option value="">Pilih Bentuk Donasi Kelima:</option>
                 <option value="uang">Uang</option>
                 <option value="barang">Barang</option>
@@ -464,11 +464,41 @@
         </div>
         <div class="form-group" id="form-jumlah-uang5" style="display:none;">
             <label for="jumlah_rp5" class="form-label">Jumlah (Rp):</label>
-            <input type="number" name="jumlah_rp5" id="jumlah_rp5" class="form-control" placeholder="Jumlah Donasi Kelima: (Rp)" required>
+            <input type="number" name="jumlah_rp5" id="jumlah_rp5" class="form-control" placeholder="Jumlah Donasi Kelima: (Rp)">
         </div>
         <div class="form-group" id="form-jumlah-barang5" style="display:none;">
             <label for="jumlah_paket5" class="form-label">Jumlah Paket:</label>
-            <input type="number" name="jumlah_paket5" id="jumlah_paket5" class="form-control" placeholder="Jumlah Donasi Kelima: (Paket)" required>
+            <input type="number" name="jumlah_paket5" id="jumlah_paket5" class="form-control" placeholder="Jumlah Donasi Kelima: (Paket)">
+        </div>
+
+        <div class="form-group">
+            <label for="total_rp" class="form-label">Total Donasi (Rp):</label>
+            <input type="number" name="total_rp" id="total_rp" class="form-control" readonly>
+        </div>
+        <div class="form-group">
+            <label for="total_paket" class="form-label">Total Donasi (Paket):</label>
+            <input type="number" name="total_paket" id="total_paket" class="form-control" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="cara_pembayaran" class="form-label">Cara Pembayaran:</label>
+            <select name="cara_pembayaran" id="cara_pembayaran" class="form-control">
+                <option value="">Pilih Cara Pembayaran</option>
+                <option value="tunai">Tunai</option>
+                <option value="transfer">Transfer</option>
+            </select>
+        </div>
+
+        <div id="form-bukti-transfer" style="display:none;">
+            <div class="form-group">
+                <label for="bukti_transfer" class="form-label">Bukti Transfer:</label>
+                <input type="file" name="bukti_transfer" id="bukti_transfer" class="form-control">
+            </div>
+        </div>
+   
+        <div class="form-group"> 
+            <label for="keterangan" class="form-label">Keterangan:</label>
+            <textarea name="keterangan" id="keterangan" class="form-control" rows="3"></textarea> 
         </div>
         <button type="submit" class="btn btn-donasi">Simpan Donasi</button>
     </form>
@@ -578,6 +608,120 @@
                 document.getElementById("form-jumlah-barang5").style.display = "none";
             }
         });
+
+        function calculateTotals() {
+            // Initialize total variables
+            var totalRp = 0;
+            var totalPaket = 0;
+
+            // Get all the input fields that represent the amount of Rp
+            var rpInputs = document.querySelectorAll('input[id^="jumlah_rp"]');
+
+            // Get all the input fields that represent the number of packages
+            var paketInputs = document.querySelectorAll('input[id^="jumlah_paket"]');
+
+            // Loop through each input field and add its value to the total variables
+            rpInputs.forEach(function(input) {
+                totalRp += parseInt(input.value || 0);
+            });
+
+            paketInputs.forEach(function(input) {
+                totalPaket += parseInt(input.value || 0);
+            });
+
+            // Update the total input fields with the total values
+            document.getElementById('total_rp').value = totalRp;
+            document.getElementById('total_paket').value = totalPaket;
+        }
+        // Get all the input fields that represent the amount of Rp and the number of packages
+        var amountInputs = document.querySelectorAll('input[id^="jumlah_rp"], input[id^="jumlah_paket"]');
+
+        // Loop through each input field and add an event listener for the 'input' event
+        amountInputs.forEach(function(input) {
+            input.addEventListener('input', function() {
+                calculateTotals();
+            });
+        });
+
+
+        
+    document.getElementById("cara_pembayaran").addEventListener("change", function() {
+        if (this.value == "transfer") {
+            document.getElementById("form-bukti-transfer").style.display = "block";
+
+            // Check if any donation type is 'uang'
+            const donationTypes = document.querySelectorAll('select[id^="perincian_donasi"], select[id^="perincian_donasi2"], select[id^="perincian_donasi3"], select[id^="perincian_donasi4"], select[id^="perincian_donasi5"]');
+            let donationTypeUangFound = false;
+
+            donationTypes.forEach(function(select) {
+                if (select.value !== "" && select.options[select.selectedIndex].getAttribute('data-donation-type') === 'uang') {
+                    donationTypeUangFound = true;
+                }
+            });
+
+            // If no 'uang' donation type is found, hide the input fields related to money donation
+            if (!donationTypeUangFound) {
+                const moneyInputs = document.querySelectorAll('input[id^="jumlah_rp"], select[id^="bentuk_donasi"]');
+                moneyInputs.forEach(function(input) {
+                    input.style.display = "none";
+                });
+            } else {
+                // Display the input fields related to money donation
+                const moneyInputs = document.querySelectorAll('input[id^="jumlah_rp"], select[id^="bentuk_donasi"]');
+                moneyInputs.forEach(function(input) {
+                    input.style.display = "block";
+                });
+            }
+        } else {
+            document.getElementById("form-bukti-transfer").style.display = "none";
+
+            // Hide the input fields related to money donation
+            const moneyInputs = document.querySelectorAll('input[id^="jumlah_rp"], select[id^="bentuk_donasi"]');
+            moneyInputs.forEach(function(input) {
+                input.style.display = "none";
+            });
+        }
+    });
+
+    // Add a change event listener for each donation type select
+    const donationTypes = document.querySelectorAll('select[id^="perincian_donasi"], select[id^="perincian_donasi2"], select[id^="perincian_donasi3"], select[id^="perincian_donasi4"], select[id^="perincian_donasi5"]');
+    donationTypes.forEach(function(select) {
+        select.addEventListener("change", function() {
+            if (select.value !== "") {
+                const selectedDonationType = select.options[select.selectedIndex].getAttribute('data-donation-type');
+                const donationIndex = select.id.split("_")[1];
+
+                // Show donation type select and input based on selected donation type
+                document.getElementById("bentuk_donasi" + donationIndex).style.display = "block";
+                if (selectedDonationType === 'uang') {
+                    document.getElementById("form-jumlah-uang" + donationIndex).style.display = "block";
+                    document.getElementById("form-jumlah-barang" + donationIndex).style.display = "none";
+                } else {
+                    document.getElementById("form-jumlah-uang" + donationIndex).style.display = "none";
+                    document.getElementById("form-jumlah-barang" + donationIndex).style.display = "block";
+                }
+            } else {
+                document.getElementById("bentuk_donasi" + select.id.split("_")[1]).style.display = "none";
+            }
+        });
+    });
+
+    // Add a change event listener for each donation amount select
+    const donationAmounts = document.querySelectorAll('select[id^="bentuk_donasi"], select[id^="bentuk_donasi2"], select[id^="bentuk_donasi3"], select[id^="bentuk_donasi4"], select[id^="bentuk_donasi5"]');
+    donationAmounts.forEach(function(select) {
+        select.addEventListener("change", function() {
+            const donationIndex = select.id.split("_")[1];
+
+            // Show or hide donation amount input based on selected donation type
+            if (select.value === 'uang') {
+                document.getElementById("form-jumlah-uang" + donationIndex).style.display = "block";
+                document.getElementById("form-jumlah-barang" + donationIndex).style.display = "none";
+            } else {
+                document.getElementById("form-jumlah-uang" + donationIndex).style.display = "none";
+                document.getElementById("form-jumlah-barang" + donationIndex).style.display = "block";
+            }
+        });
+    });
     </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoJtKh7z7lGz7fuP4F8nfdFvAOA6Gg/z6Y5J6XqqyGXYM2ntX5" crossorigin="anonymous"></script>

@@ -85,7 +85,61 @@ $stmt->close();
             <li>Gerai: <?= htmlspecialchars($donasi['gerai_id']) ?></li>
             <li>Petugas Gerai: <?= htmlspecialchars($donasi['petugas_gerai_id']) ?></li>
         </ul>
+
+        <h2>Rincian Donasi</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Perincian Donasi</th>
+                    <th>Bentuk Donasi</th>
+                    <th>Jumlah (Rp)</th>
+                    <th>Jumlah (Paket)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $totalRp = 0;
+                $totalPaket = 0;
+                for ($i = 1; $i <= 5; $i++) {
+                    $perincianDonasiId = "perincian_donasi$i";
+                    $bentukDonasi = htmlspecialchars($donasi["bentuk_donasi_$i"]);
+                    $jumlahRp = htmlspecialchars($donasi["jumlah_rp_$i"]);
+                    $jumlahPaket = htmlspecialchars($donasi["jumlah_paket_$i"]);
+
+                    if ($$perincianDonasiId) {
+                        $totalRp += $jumlahRp;
+                        $totalPaket += $jumlahPaket;
+                ?>
+                        <tr>
+                            <td><?= $i ?></td>
+                            <td><?= htmlspecialchars($donasi["$perincianDonasiId"]) ?></td>
+                            <td><?= $bentukDonasi ?></td>
+                            <td><?= $jumlahRp ?></td>
+                            <td><?= $jumlahPaket ?></td>
+                        </tr>
+                <?php
+                    }
+                }
+                ?>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">Total</th>
+                    <th><?= htmlspecialchars($totalPaket) ?></th>
+                    <th><?= htmlspecialchars($totalRp) ?></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <h2>Metode Pembayaran</h2>
+        <p>Cara Pembayaran: <?= htmlspecialchars($donasi['cara_pembayaran']) ?></p>
+        <?php if ($donasi['cara_pembayaran'] == 'transfer') : ?>
+            <p>Bukti Pembayaran: <img src="bukti_pembayaran/<?= htmlspecialchars($donasi['bukti_pembayaran']) ?>" alt="Bukti Pembayaran" class="img-fluid"></p>
+        <?php endif; ?>
     </div>
+    <a href="print_pdf.php" class="btn btn-secondary">Print ke PDF</a>
 
     <footer class="bg-gray-800 text-white p-8">
         <h5 class="text-2xl font-bold mb-4">Hubungi Kami</h5>

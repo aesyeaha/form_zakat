@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2024 at 02:40 PM
+-- Generation Time: Mar 03, 2024 at 10:45 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -54,25 +54,30 @@ CREATE TABLE IF NOT EXISTS `donasi` (
   `perincian_donasi_5_id` int(11) DEFAULT NULL,
   `bentuk_donasi_5` varchar(50) DEFAULT NULL,
   `jumlah_rp_5` int(11) DEFAULT NULL,
-  `jumlah_paket_5` int(11) DEFAULT NULL
+  `jumlah_paket_5` int(11) DEFAULT NULL,
+  `cara_pembayaran` varchar(50) DEFAULT NULL,
+  `bukti_pembayaran` text,
+  `total_rp` int(11) DEFAULT NULL,
+  `total_paket` int(11) DEFAULT NULL,
+  `keterangan` text
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `donasi`
 --
 
-INSERT INTO `donasi` (`id`, `nama_donatur`, `alamat`, `no_hp`, `tanggal`, `kelas_id`, `gerai_id`, `petugas_gerai_id`, `perincian_donasi_1_id`, `bentuk_donasi_1`, `jumlah_rp_1`, `jumlah_paket_1`, `perincian_donasi_2_id`, `bentuk_donasi_2`, `jumlah_rp_2`, `jumlah_paket_2`, `perincian_donasi_3_id`, `bentuk_donasi_3`, `jumlah_rp_3`, `jumlah_paket_3`, `perincian_donasi_4_id`, `bentuk_donasi_4`, `jumlah_rp_4`, `jumlah_paket_4`, `perincian_donasi_5_id`, `bentuk_donasi_5`, `jumlah_rp_5`, `jumlah_paket_5`) VALUES
-(1, 'Donatur Satu', 'Jl. Donatur No. 1', '083627153776', '2024-02-20 09:27:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(3, 'Donatur Dua', 'Jl. Donatur No. 2', '086372548244', '2024-02-20 09:51:22', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'Donatur Tiga', 'Jl. Donatur No. 3', '087237194628', '2024-02-20 09:58:51', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'Donatur Empat', 'Jl. Donatur No. 4', '081273576230', '2024-02-20 10:01:01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'Donatur Lima', 'Jl. Donatur No. 5', '082637236234', '2024-02-20 10:48:46', 45, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'Donatur Enam', 'Jl. Donatur No. 6', '0852472056119', '2024-02-20 10:49:23', 36, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 'Donatur Tujuh', 'Jl. Donatur No. 7', '083475237890', '2024-02-20 11:02:00', 2, 1, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(11, 'Donatur Delapan', 'Jl. Donatur No. 8', '081326784246', '2024-02-20 11:02:51', 43, 3, 62, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 'Donatur Sembilan', 'Jl. Donatur No. 9', '085374642277', '2024-02-20 11:55:49', 37, 3, 58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(13, 'Donatur Sembilan', 'Jl. Donatur No. 9', '086521836817', '2024-02-20 11:59:36', 45, 4, 17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(14, 'Donatur Sepuluh', 'Jl. Donatur No. 10', '082923771527', '2024-02-20 20:30:03', 26, 2, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `donasi` (`id`, `nama_donatur`, `alamat`, `no_hp`, `tanggal`, `kelas_id`, `gerai_id`, `petugas_gerai_id`, `perincian_donasi_1_id`, `bentuk_donasi_1`, `jumlah_rp_1`, `jumlah_paket_1`, `perincian_donasi_2_id`, `bentuk_donasi_2`, `jumlah_rp_2`, `jumlah_paket_2`, `perincian_donasi_3_id`, `bentuk_donasi_3`, `jumlah_rp_3`, `jumlah_paket_3`, `perincian_donasi_4_id`, `bentuk_donasi_4`, `jumlah_rp_4`, `jumlah_paket_4`, `perincian_donasi_5_id`, `bentuk_donasi_5`, `jumlah_rp_5`, `jumlah_paket_5`, `cara_pembayaran`, `bukti_pembayaran`, `total_rp`, `total_paket`, `keterangan`) VALUES
+(1, 'Donatur Satu', 'Jl. Donatur No. 1', '083627153776', '2024-02-20 09:27:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 'Donatur Dua', 'Jl. Donatur No. 2', '086372548244', '2024-02-20 09:51:22', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 'Donatur Tiga', 'Jl. Donatur No. 3', '087237194628', '2024-02-20 09:58:51', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 'Donatur Empat', 'Jl. Donatur No. 4', '081273576230', '2024-02-20 10:01:01', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, 'Donatur Lima', 'Jl. Donatur No. 5', '082637236234', '2024-02-20 10:48:46', 45, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'Donatur Enam', 'Jl. Donatur No. 6', '0852472056119', '2024-02-20 10:49:23', 36, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(10, 'Donatur Tujuh', 'Jl. Donatur No. 7', '083475237890', '2024-02-20 11:02:00', 2, 1, 51, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(11, 'Donatur Delapan', 'Jl. Donatur No. 8', '081326784246', '2024-02-20 11:02:51', 43, 3, 62, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(12, 'Donatur Sembilan', 'Jl. Donatur No. 9', '085374642277', '2024-02-20 11:55:49', 37, 3, 58, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(13, 'Donatur Sembilan', 'Jl. Donatur No. 9', '086521836817', '2024-02-20 11:59:36', 45, 4, 17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 'Donatur Sepuluh', 'Jl. Donatur No. 10', '082923771527', '2024-02-20 20:30:03', 26, 2, 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
