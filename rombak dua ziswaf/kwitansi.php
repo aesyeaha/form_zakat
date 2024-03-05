@@ -28,6 +28,48 @@ $result = $stmt->get_result();
 $donasi = $result->fetch_assoc();
 $stmt->close();
 
+// Add default values for missing perincian_donasi_5 index
+if (!isset($donasi["perincian_donasi_5_id"])) {
+    $donasi["perincian_donasi_5_id"] = 0;
+    $donasi["bentuk_donasi_5"] = "";
+    $donasi["jumlah_rp_5"] = 0;
+    $donasi["jumlah_paket_5"] = 0;
+}
+
+// Define perincianDonasi array with all perincian donasi
+$perincianDonasi = [
+    [
+        'id' => htmlspecialchars($donasi["perincian_donasi_1_id"]),
+        'bentuk_donasi' => htmlspecialchars($donasi["bentuk_donasi_1"]),
+        'jumlah_rp' => htmlspecialchars($donasi["jumlah_rp_1"]),
+        'jumlah_paket' => htmlspecialchars($donasi["jumlah_paket_1"])
+    ],
+    [
+        'id' => htmlspecialchars($donasi["perincian_donasi_2_id"]),
+        'bentuk_donasi' => htmlspecialchars($donasi["bentuk_donasi_2"]),
+        'jumlah_rp' => htmlspecialchars($donasi["jumlah_rp_2"]),
+        'jumlah_paket' => htmlspecialchars($donasi["jumlah_paket_2"])
+    ],
+    [
+        'id' => htmlspecialchars($donasi["perincian_donasi_3_id"]),
+        'bentuk_donasi' => htmlspecialchars($donasi["bentuk_donasi_3"]),
+        'jumlah_rp' => htmlspecialchars($donasi["jumlah_rp_3"]),
+        'jumlah_paket' => htmlspecialchars($donasi["jumlah_paket_3"])
+    ],
+    [
+        'id' => htmlspecialchars($donasi["perincian_donasi_4_id"]),
+        'bentuk_donasi' => htmlspecialchars($donasi["bentuk_donasi_4"]),
+        'jumlah_rp' => htmlspecialchars($donasi["jumlah_rp_4"]),
+        'jumlah_paket' => htmlspecialchars($donasi["jumlah_paket_4"])
+    ],
+    [
+        'id' => htmlspecialchars($donasi["perincian_donasi_5_id"]),
+        'bentuk_donasi' => htmlspecialchars($donasi["bentuk_donasi_5"]),
+        'jumlah_rp' => htmlspecialchars($donasi["jumlah_rp_5"]),
+        'jumlah_paket' => htmlspecialchars($donasi["jumlah_paket_5"])
+    ]
+];
+
 ?>
 
 <!DOCTYPE html>
@@ -36,12 +78,21 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kwitansi Donasi</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <style>
         .navbar-custom {
             background-color: lightblue; 
+        }
+        
+        footer {
+            bottom: 0; width: 100%; 
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -62,7 +113,7 @@ $stmt->close();
                 <a class="nav-link" href="form_donasi.php">Form Donasi <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="dashboard.php">Dashboard</a>
+                <a class="nav-link" href="dashboard_signup.php">Dashboard</a>
             </li>
         </ul>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -101,16 +152,25 @@ $stmt->close();
                 <?php
                 $totalRp = 0;
                 $totalPaket = 0;
-                for ($i = 1; $i <= 5; $i++) {
-                    $perincianDonasiId = "perincian_donasi$i";
-                    $bentukDonasi = htmlspecialchars($donasi["bentuk_donasi_$i"]);
-                    $jumlahRp = htmlspecialchars($donasi["jumlah_rp_$i"]);
-                    $jumlahPaket = htmlspecialchars($donasi["jumlah_paket_$i"]);
+                    // Mengambil data perincian donasi
+                    $perincianDonasi = [];
+                    for ($i = 1; $i <= 5; $i++) {
+                        $perincianDonasiId = "perincian_donasi_$i";
+                        $perincianDonasi[$i] = [
+                            'id' => htmlspecialchars($donasi["{$perincianDonasiId}_id"]),
+                            'bentuk_donasi' => htmlspecialchars($donasi["bentuk_donasi_$i"]),
+                            'jumlah_rp' => htmlspecialchars($donasi["jumlah_rp_$i"]),
+                            'jumlah_paket' => htmlspecialchars($donasi["jumlah_paket_$i"])
+                        ];
+                    }
 
                     if ($$perincianDonasiId) {
                         $totalRp += $jumlahRp;
                         $totalPaket += $jumlahPaket;
-                ?>
+                    }
+
+                    ?>
+                
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= htmlspecialchars($donasi["$perincianDonasiId"]) ?></td>
@@ -118,10 +178,7 @@ $stmt->close();
                             <td><?= $jumlahRp ?></td>
                             <td><?= $jumlahPaket ?></td>
                         </tr>
-                <?php
-                    }
-                }
-                ?>
+               
             </tbody>
             <tfoot>
                 <tr>
@@ -145,11 +202,11 @@ $stmt->close();
         <h5 class="text-2xl font-bold mb-4">Hubungi Kami</h5>
         <address class="mb-4">
             <strong class="block">Yayasan Permata Mojokerto</strong>
-            Jl. Raya Pondok Gede No. 123<br>
-            Pondok Gede, Bekasi<br>
-            Jawa Barat 17411<br>
+            Jl. Tropodo No 847 A, Kelurahan Meri, <br>
+            Kecamatan Magersari, Kota Mojokerto, <br>
+            Provinsi Jawa Timur, 61315 <br>
             <abbr title="Phone" class="text-gray-400">Phone:</abbr> (021) 1234567<br>
-            <abbr title="Email" class="text-gray-400">Email:</abbr> <a href="mailto:info@al-ikhlaszakat.org" class="text-blue-500 hover:underline">info@al-ikhlaszakat.org</a>
+            <abbr title="Email" class="text-gray-400">Email:</abbr> <a href="mailto:info@yayasanpermatamojokerto.org" class="text-blue-500 hover:underline">info@yayasanpermatamojokerto.org</a>
         </address>
     </footer>
 
@@ -158,5 +215,3 @@ $stmt->close();
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
-
-    

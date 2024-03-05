@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2024 at 10:45 AM
+-- Generation Time: Mar 05, 2024 at 02:14 AM
 -- Server version: 5.6.20
 -- PHP Version: 5.5.15
 
@@ -395,6 +395,25 @@ INSERT INTO `petugas_gerai` (`id`, `nama_petugas_gerai`) VALUES
 (62, 'Makhfud Kurniawan Hidayat'),
 (63, 'Online');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+`id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`) VALUES
+(1, 'asyah', '$2y$10$Y6vo/o3GR9is53OPLW5r3ua5fbHOFkzcekZbVJB0h0zTrKeeFhCoO');
+
 --
 -- Indexes for dumped tables
 --
@@ -454,6 +473,12 @@ ALTER TABLE `petugas_gerai`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -502,6 +527,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 ALTER TABLE `petugas_gerai`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=64;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --

@@ -13,46 +13,47 @@
             font-size: 0.8rem;
         }
 
-        .container {
-            padding-top: 5rem;
-            padding-bottom: 5rem;
+        .signup-form {
+            background-color: #1F2837ff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1 {
-            font-weight: bold;
-            color: #413d3a;
+        .signup-form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
         }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.5;
+        .signup-form input[type="text"],
+        .signup-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #1F2837ff;
+            margin-bottom: 10px;
         }
 
-        img {
-            border-radius: 10px;
+        .signup-form button {
+            background-color: #fff;
+            color: #1F2837ff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        .photo-credit {
-            margin-top: 1rem;
-            font-size: 0.8rem;
+        .signup-form button:hover {
+            background-color: #c6d3e3;
         }
 
-        .highlight {
-            color: #f06c64;
-        }
-
-        .btn-primary {
-            background-color: #f06c64;
-            border-color: #f06c64;
-        }
-
-        .btn-primary:hover {
-            background-color: #eb5e57;
-            border-color: #eb5e57;
-        }
-
-        .btn-primary:focus {
-            box-shadow: 0 0 0 0.2rem rgba(255, 128, 132, 0.5);
+        .signup-form a {
+            color: #fff;
+            text-decoration: none;
         }
         
         footer {
@@ -70,8 +71,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">Beranda <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php">Beranda</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="menu.php">Menu</a>
@@ -79,8 +80,8 @@
                 <li class="nav-item">
                     <a class="nav-link" href="form_donasi.php">Form Donasi</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="dashboard_signup.php">Dashboard</a>
+                <li class="nav-item active">
+                    <a class="nav-link" href="dashboard_signup.php">Dashboard <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -91,18 +92,65 @@
         </div>
     </nav>
 
+    <?php
+    session_start();
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "dbaseziswaf";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        die("Koneksi gagal: " . $conn->connect_error);
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Prepare an insert statement
+        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+
+        if ($stmt = $conn->prepare($sql)) {
+            // Bind variables to the prepared statement as parameters
+            $stmt->bind_param("ss", $param_username, $param_password);
+
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+            $param_password = password_hash(trim($_POST["password"]), PASSWORD_DEFAULT); // Hash the password
+
+            // Attempt to execute the prepared statement
+            if ($stmt->execute()) {
+                // Redirect to login page
+                header("location: dashboard_login.php");
+            } else {
+                echo "Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            $stmt->close();
+        }
+    }
+
+    $conn->close();
+    ?>
+
+
     <div class="container">
-        <h1 class="text-center my-5">Permata Ansyithoh Ramadhan 1445H</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <p class="lead">Yayasan Permata Ansyithoh Ramadhan 1445H menyediakan fasilitas tabungan surga, wakaf pengembangan masjid, wakaf pembangunan PPTQ, dan wakaf al-Qur'an. Selain itu, kami juga menerima zakat maal, zakat fitrah, dan shodaqoh, serta infaq untuk kepentingan umum. </p>
-                <p class="lead">Dengan mengambil tindakan sosial yang bermanfaat, kami berharap dapat membantu memakmurkan masyarakat dan mengukir nama Allah SWT di atas segala sesuatu. </p>
-            </div>
-            <div class="col-md-6">
-                <img src="./image/upz.png" class="img-fluid" alt="Yayasan Permata Ansyithoh Ramadhan 1445H">
-            </div>
-        </div>
+        <h1 class="text-center my-5">Sign Up</h1>
+        <form class="signup-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <label for="username">Username:</label>
+            <input type="text" name="username" placeholder="Username" id="username" required><br>
+            <label for="password">Password:</label>
+            <input type="password" name="password" placeholder="Password" id="password" required><br>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="dashboard_login.php">Log in</a></p>
     </div>
+
+    <br>
 
     <footer class="bg-gray-800 text-white p-8">
     <h5 class="text-2xl font-bold mb-4">Hubungi Kami</h5>

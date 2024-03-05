@@ -2,13 +2,22 @@
 <html>
 <head>
     <title>Menu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href=" https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <style>
         .photo-credit {
             margin-top: 1rem;
             font-size: 0.8rem;
+        }
+        
+        footer {
+            bottom: 0; width: 100%; 
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -29,7 +38,7 @@
                     <a class="nav-link" href="form_donasi.php">Form Donasi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="dashboard.php">Dashboard</a>
+                    <a class="nav-link" href="dashboard_signup.php">Dashboard</a>
                 </li>
             </ul>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -164,11 +173,11 @@
     <h5 class="text-2xl font-bold mb-4">Hubungi Kami</h5>
     <address class="mb-4">
         <strong class="block">Yayasan Permata Mojokerto</strong>
-        Jl. Raya Pondok Gede No. 123<br>
-        Pondok Gede, Bekasi<br>
-        Jawa Barat 17411<br>
+        Jl. Tropodo No 847 A, Kelurahan Meri, <br>
+        Kecamatan Magersari, Kota Mojokerto, <br>
+        Provinsi Jawa Timur, 61315 <br>
         <abbr title="Phone" class="text-gray-400">Phone:</abbr> (021) 1234567<br>
-        <abbr title="Email" class="text-gray-400">Email:</abbr> <a href="mailto:info@al-ikhlaszakat.org" class="text-blue-500 hover:underline">info@al-ikhlaszakat.org</a>
+        <abbr title="Email" class="text-gray-400">Email:</abbr> <a href="mailto:info@yayasanpermatamojokerto.org" class="text-blue-500 hover:underline">info@yayasanpermatamojokerto.org</a>
     </address>
     </footer>
 
