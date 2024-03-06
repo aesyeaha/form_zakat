@@ -92,10 +92,10 @@
     </nav>
 
     <div class="container">
-        <h1 class="text-center my-5">Permata Ansyithoh Ramadhan 1445H</h1>
+        <h1 class="text-center my-5">Ziswaf Permata</h1>
         <div class="row">
             <div class="col-md-6">
-                <p class="lead">Yayasan Permata Ansyithoh Ramadhan 1445H menyediakan fasilitas tabungan surga, wakaf pengembangan masjid, wakaf pembangunan PPTQ, dan wakaf al-Qur'an. Selain itu, kami juga menerima zakat maal, zakat fitrah, dan shodaqoh, serta infaq untuk kepentingan umum. </p>
+                <p class="lead">Ziswaf Permata menyediakan fasilitas tabungan surga, wakaf pengembangan masjid, wakaf pembangunan PPTQ, dan wakaf al-Qur'an. Selain itu, kami juga menerima zakat maal, zakat fitrah, dan shodaqoh, serta infaq untuk kepentingan umum. </p>
                 <p class="lead">Dengan mengambil tindakan sosial yang bermanfaat, kami berharap dapat membantu memakmurkan masyarakat dan mengukir nama Allah SWT di atas segala sesuatu. </p>
             </div>
             <div class="col-md-6">

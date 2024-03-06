@@ -224,6 +224,15 @@
         </div>
 
         <div class="form-group">
+            <label for="shift_petugas" class="form-label">Shift Petugas:</label>
+            <select name="shift_petugas" id="shift_petugas" class="form-control" required>
+                <option value="">Pilih Shift Petugas</option>
+                <option value="uang">1</option>
+                <option value="barang">2</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="perincian_donasi" class="form-label">Perincian Donasi:</label>
             <select name="perincian_donasi" id="perincian_donasi" class="form-control" required>
                 <option value="">Pilih Perincian Donasi</option>
